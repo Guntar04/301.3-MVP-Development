@@ -70,3 +70,23 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Ignore package manager cache
+/[Pp]ackages/*/[Cc]ache/
+
+# Ignore Unity Package Manager local cache
+/[Pp]ackage[Cc]ache/
+
+# Ignore backup files created by Unity or other tools
+*~.meta
+*~
+
+# Ignore Unity editor crash logs
+/[Cc]rash[Rr]eports/
+
+# Ignore local configuration overrides
+/[Aa]ssets/*/[Ll]ocal[Cc]onfig.meta
+/[Aa]ssets/*/[Ll]ocal[Cc]onfig/
+
+# Ignore profiler data
+/[Pp]rofiler[Dd]ata/
