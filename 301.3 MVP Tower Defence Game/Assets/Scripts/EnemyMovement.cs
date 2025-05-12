@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
