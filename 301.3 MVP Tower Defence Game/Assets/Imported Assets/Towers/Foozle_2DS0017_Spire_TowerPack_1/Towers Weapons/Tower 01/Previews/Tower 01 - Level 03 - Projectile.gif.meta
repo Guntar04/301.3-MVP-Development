@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tower 01 - Level 03 - Projectile_0: -5525412561503889879
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

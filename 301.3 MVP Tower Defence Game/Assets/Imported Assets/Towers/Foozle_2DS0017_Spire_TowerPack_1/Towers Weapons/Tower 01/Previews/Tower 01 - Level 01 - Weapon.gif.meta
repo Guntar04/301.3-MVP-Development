@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tower 01 - Level 01 - Weapon_0: 6348413185770706182
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
