@@ -7,6 +7,7 @@ public class Health : MonoBehaviour
 
     [Header("Attributes")]
     [SerializeField] private int hitPoints = 2;
+    [SerializeField] private int currencyWorth = 50;
 
     private bool isKilled = false;
 
@@ -17,6 +18,7 @@ public class Health : MonoBehaviour
         if (hitPoints <= 0 && !isKilled)
         {
             EnemySpawner.enemyKilled.Invoke();
+            LevelManager.Main.IncreaseCurrency(currencyWorth);
             isKilled = true;
             Destroy(gameObject);
         }

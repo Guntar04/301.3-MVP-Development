@@ -29,8 +29,17 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     {
         if (tower != null) return;
 
-        GameObject towerToBuild = BuildManager.Main.GetSelectedTower();
+        Tower towerToBuild = BuildManager.Main.GetSelectedTower();
         Vector3 offset = new Vector3(0, 0.5f, 0); // Adjust the Y value as needed
-        tower = Instantiate(towerToBuild, transform.position + offset, Quaternion.identity);
+
+        if (towerToBuild.cost > LevelManager.Main.currency)
+        {
+            Debug.Log("You can't afford this tower");
+            return;
+        }
+
+        LevelManager.Main.SpendCurrency(towerToBuild.cost);
+        
+        tower = Instantiate(towerToBuild.prefab, transform.position + offset, Quaternion.identity);
     }
 }
