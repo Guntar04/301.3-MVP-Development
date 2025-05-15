@@ -10,8 +10,8 @@ public class EnemySpawner : MonoBehaviour
 
 
     [Header("Attributes")]
-    [SerializeField] private int baseEnemies = 8;
-    [SerializeField] private float enemiesPerSecond = 0.5f;
+    [SerializeField] private int baseEnemies = 20;
+    [SerializeField] private float enemiesPerSecond = 0.3f;
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.7f;
 
@@ -42,6 +42,7 @@ public class EnemySpawner : MonoBehaviour
             SpawnEnemy();
             enemiesLeftToSpawn--;
             enemiesAlive++;
+            enemiesPerSecond = 1f / Random.Range(0.4f, 1.5f);
             timeSinceLastSpawn = 0f;
         }
 
@@ -68,7 +69,14 @@ public class EnemySpawner : MonoBehaviour
     }
 
     private void SpawnEnemy() {
-        GameObject prefabToSpawn = enemyPrefabs[0];
+        GameObject prefabToSpawn = enemyPrefabs[0]; // Default initialization
+        if (currentWave >= 3) {
+            prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Clamp(currentWave, 1, enemyPrefabs.Length))];
+        }
+
+        else if (currentWave >= 5) {
+            prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Clamp(currentWave, 2, enemyPrefabs.Length))];
+        }
         Instantiate(prefabToSpawn, LevelManager.Main.startPoint.position, Quaternion.identity);
     }
 

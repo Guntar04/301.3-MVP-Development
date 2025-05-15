@@ -409,7 +409,19 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tower 04 - Level 02 - Projectile_0: -2908592444774476198
+      Tower 04 - Level 02 - Projectile_1: -1887456625183230454
+      Tower 04 - Level 02 - Projectile_10: 3256767316541692328
+      Tower 04 - Level 02 - Projectile_11: -6933508809879110708
+      Tower 04 - Level 02 - Projectile_2: -2571156323423646585
+      Tower 04 - Level 02 - Projectile_3: -8180302610834515762
+      Tower 04 - Level 02 - Projectile_4: -5100637934783702863
+      Tower 04 - Level 02 - Projectile_5: -8275696284948680642
+      Tower 04 - Level 02 - Projectile_6: 6927928894472128388
+      Tower 04 - Level 02 - Projectile_7: 7510444365059899682
+      Tower 04 - Level 02 - Projectile_8: 1014337857863322404
+      Tower 04 - Level 02 - Projectile_9: -8149973906703748379
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 1458553775
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5901685104126582622, guid: 0ca65db93284081418669ec79fe48835, type: 3}
+  m_Sprite: {fileID: 149164983, guid: 7336b87a3be40bc4890f295a47f36994, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 8390933460585491932}
   - component: {fileID: 8454560744349413224}
   m_Layer: 6
-  m_Name: Tower 01
+  m_Name: Tower 02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,11 +202,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   bulletPrefab:
-  - {fileID: 1558567190759146888, guid: c3ed91995e920d7409de3f5718176dc7, type: 3}
+  - {fileID: 1558567190759146888, guid: 08e7732b1f4285b4bb3794f6c5605306, type: 3}
   firingPoint: {fileID: 6541414004813205753}
-  targetingRange: 3
-  rotationSpeed: 200
-  bps: 1
+  targetingRange: 8
+  rotationSpeed: 170
+  bps: 0.4
 --- !u!1 &6629836823207535150
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 6271199913092827075}
   - component: {fileID: 7801029531664141107}
   m_Layer: 0
-  m_Name: Bow
+  m_Name: Catapult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -233,8 +233,8 @@ Transform:
   m_GameObject: {fileID: 6629836823207535150}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.004999876, y: 0.014, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.33480778, y: 0.33480778, z: 0.33480778}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8984319323610810005}
@@ -283,7 +283,7 @@ SpriteRenderer:
   m_SortingLayerID: 1458553775
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7949967783400981039, guid: 53049b8b7edc1f84aa45f100cc972fe6, type: 3}
+  m_Sprite: {fileID: -2275601651859316098, guid: 6339facf007c5eb4db9aff9762442ded, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
