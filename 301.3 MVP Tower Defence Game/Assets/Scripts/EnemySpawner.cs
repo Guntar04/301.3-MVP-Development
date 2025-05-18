@@ -69,13 +69,15 @@ public class EnemySpawner : MonoBehaviour
     }
 
     private void SpawnEnemy() {
-    GameObject prefabToSpawn = enemyPrefabs[0]; // Default initialization
+        GameObject prefabToSpawn = enemyPrefabs[0]; // Default to the first enemy type
 
         if (currentWave >= 5) {
-            prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Clamp(currentWave - 3, 2, enemyPrefabs.Length))];
+            // Waves 5-10: Spawn any of the three enemy types
+            prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(3, enemyPrefabs.Length))];
         } 
-        else if (currentWave >= 3 && currentWave < 5) {
-            prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Clamp(currentWave - 1, 1, enemyPrefabs.Length))];
+        else if (currentWave >= 3) {
+            // Waves 3-4: Spawn either the first or second enemy type
+            prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(2, enemyPrefabs.Length))];
         }
 
         Instantiate(prefabToSpawn, LevelManager.Main.startPoint.position, Quaternion.identity);
