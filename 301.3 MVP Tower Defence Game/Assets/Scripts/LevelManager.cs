@@ -9,25 +9,43 @@ public class LevelManager : MonoBehaviour
     public Transform[] path;
 
     public int currency;
+    public int health;
 
-    private void Awake() {
+    private void Awake()
+    {
         Main = this;
     }
 
-    private void Start() {
+    private void Start()
+    {
         currency = 250;
+        health = 10;
     }
 
     public void IncreaseCurrency(int amount) {
         currency += amount;
     }
+    
+    public void DecreaseHealth(int amount)
+    {
+        health -= amount;
+        Debug.Log("Player health decreased. Current health: " + health);
+        if (health <= 0)
+        {
+            Debug.Log("Game Over!");
+            // Add game over logic here
+        }
+    }
 
-    public bool SpendCurrency(int amount) {
-        if(amount <= currency) {
+    public bool SpendCurrency(int amount)
+    {
+        if (amount <= currency)
+        {
             currency -= amount;
             return true;
         }
-        else {
+        else
+        {
             Debug.Log("Not enough currency");
             return false;
         }

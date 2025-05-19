@@ -6,6 +6,7 @@ public class InGameBuyMenu : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] TextMeshProUGUI currencyUI;
+    [SerializeField] TextMeshProUGUI healthUI;
     [SerializeField] Animator anim;
 
     private bool isMenuOpen = true;
@@ -19,6 +20,7 @@ public class InGameBuyMenu : MonoBehaviour
     private void OnGUI()
     {
         currencyUI.text = LevelManager.Main.currency.ToString();
+        healthUI.text = LevelManager.Main.health.ToString();
     }
 
 }
