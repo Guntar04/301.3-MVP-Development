@@ -9,7 +9,7 @@ public class InGameBuyMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI healthUI;
     [SerializeField] Animator anim;
 
-    private bool isMenuOpen = true;
+    private bool isMenuOpen = false;
 
     public void ToggleMenu()
     {
