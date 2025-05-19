@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Unity-specific files should also use LF
+*.unity text eol=lf
