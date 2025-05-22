@@ -9,7 +9,7 @@ public class InGameBuyMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI healthUI;
     [SerializeField] TextMeshProUGUI waveUI;
     [SerializeField] TextMeshProUGUI endWaveUI;
-    [SerializeField] GameObject MenuPanel;
+    [SerializeField] GameObject menuPanel;
 
     public static InGameBuyMenu Main { get; private set; }
 
