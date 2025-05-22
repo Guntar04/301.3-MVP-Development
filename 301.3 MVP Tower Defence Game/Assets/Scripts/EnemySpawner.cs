@@ -17,14 +17,17 @@ public class EnemySpawner : MonoBehaviour
 
     [Header("Events")]
     public static UnityEvent enemyKilled = new UnityEvent();
+    public static EnemySpawner Main;
 
-    private int currentWave = 1;
+    public int currentWave = 1;
     private float timeSinceLastSpawn = 0f;
     private int enemiesAlive;
     private int enemiesLeftToSpawn;
     private bool isSpawning = false;
-
-    private void Awake() {
+    
+    private void Awake()
+    {
+        Main = this;
         enemyKilled.AddListener(OnEnemyKilled);
     }
 
@@ -33,12 +36,14 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(StartWave());
     }
 
-    private void Update() {
+    private void Update()
+    {
         if (!isSpawning) return;
 
         timeSinceLastSpawn += Time.deltaTime;
 
-        if (timeSinceLastSpawn >= (1f / enemiesPerSecond) && enemiesLeftToSpawn > 0) {
+        if (timeSinceLastSpawn >= (1f / enemiesPerSecond) && enemiesLeftToSpawn > 0)
+        {
             SpawnEnemy();
             enemiesLeftToSpawn--;
             enemiesAlive++;
@@ -46,8 +51,23 @@ public class EnemySpawner : MonoBehaviour
             timeSinceLastSpawn = 0f;
         }
 
-        if (enemiesAlive == 0 && enemiesLeftToSpawn == 0) {
+        if (enemiesAlive == 0 && enemiesLeftToSpawn == 0)
+        {
             EndWave();
+        }
+
+        if (currentWave >= 11)
+        {
+            isSpawning = false;
+
+
+        }
+
+        if (LevelManager.Main.health <= 0)
+        {
+            isSpawning = false;
+            
+            GameOver.Main.ShowGameOver();
         }
     }
 

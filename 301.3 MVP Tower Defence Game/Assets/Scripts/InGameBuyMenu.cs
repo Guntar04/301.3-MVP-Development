@@ -1,11 +1,14 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class InGameBuyMenu : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] TextMeshProUGUI currencyUI;
     [SerializeField] TextMeshProUGUI healthUI;
+    [SerializeField] TextMeshProUGUI waveUI;
+    [SerializeField] TextMeshProUGUI endWaveUI;
     [SerializeField] GameObject MenuPanel;
 
     public static InGameBuyMenu Main { get; private set; }
@@ -61,5 +64,7 @@ public class InGameBuyMenu : MonoBehaviour
     {
         currencyUI.text = LevelManager.Main.currency.ToString();
         healthUI.text = LevelManager.Main.health.ToString();
+        waveUI.text = EnemySpawner.Main.currentWave.ToString();
+        endWaveUI.text = EnemySpawner.Main.currentWave.ToString();
     }
 }
