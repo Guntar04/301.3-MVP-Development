@@ -1,44 +1,6 @@
-using JetBrains.Annotations;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class Pausemenu : MonoBehaviour
+public class Pausemenu
 {
-    public GameObject pauseMenuUI;
-    private bool isPaused = false;
-
-
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-
-            if (isPaused)
-                Resume();
-            else
-                Pause();
-
-
-        }
-    }
-     public void Resume()
-    {
-        pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
-        isPaused = false;
-
-    }
-    void Pause()
-    {
-        pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
-        isPaused = true;
-    }
-
-    public void QuitGame()
-    {
-        Debug.Log("Quitting game...");
-        Application.Quit();
-    }
+    
 }
