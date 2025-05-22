@@ -72,4 +72,9 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             isSelectingTower = false; // Reset the selection state only after successful placement
         }
     }
+
+    public void CancelSelection()
+    {
+        isSelectingTower = false;
+    }
 }

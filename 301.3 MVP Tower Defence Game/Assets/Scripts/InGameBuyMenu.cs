@@ -49,6 +49,12 @@ public class InGameBuyMenu : MonoBehaviour
     {
         isMenuOpen = false;
         gameObject.SetActive(false); // Disable the menu GameObject
+
+        if (selectedPlot != null)
+        {
+            selectedPlot.CancelSelection(); // Reset the plot's selection state
+            selectedPlot = null;
+        }
     }
 
     public void OnGUI()
