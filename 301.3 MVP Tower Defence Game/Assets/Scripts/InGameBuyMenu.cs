@@ -6,10 +6,12 @@ public class InGameBuyMenu : MonoBehaviour
     [Header("References")]
     [SerializeField] TextMeshProUGUI currencyUI;
     [SerializeField] TextMeshProUGUI healthUI;
+    [SerializeField] GameObject MenuPanel;
 
     public static InGameBuyMenu Main { get; private set; }
 
     private bool isMenuOpen = false;
+    private Plot selectedPlot;
 
     private void Awake()
     {
@@ -18,15 +20,28 @@ public class InGameBuyMenu : MonoBehaviour
         gameObject.SetActive(false); // Start with the menu disabled
     }
 
-    public void ToggleMenu()
+    public void ToggleMenu(Plot plot)
     {
         isMenuOpen = !isMenuOpen;
         gameObject.SetActive(isMenuOpen); // Enable or disable the menu GameObject
 
         if (isMenuOpen)
         {
+            selectedPlot = plot; // Store the selected plot
             Vector2 mousePosition = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
-            transform.position = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y));
+            transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+        }
+        else
+        {
+            selectedPlot = null; // Clear the selected plot
+        }
+    }
+
+    public void SelectTower(int towerIndex)
+    {
+        if (selectedPlot != null)
+        {
+            BuildManager.Main.SetSelectedTower(towerIndex, selectedPlot);
         }
     }
 
@@ -36,7 +51,7 @@ public class InGameBuyMenu : MonoBehaviour
         gameObject.SetActive(false); // Disable the menu GameObject
     }
 
-    private void OnGUI()
+    public void OnGUI()
     {
         currencyUI.text = LevelManager.Main.currency.ToString();
         healthUI.text = LevelManager.Main.health.ToString();

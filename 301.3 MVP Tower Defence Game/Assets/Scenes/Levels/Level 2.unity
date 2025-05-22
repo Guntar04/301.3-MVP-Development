@@ -3395,9 +3395,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1582544029}
-        m_TargetAssemblyTypeName: BuildManager, Assembly-CSharp
-        m_MethodName: SetSelectedTower
+      - m_Target: {fileID: 1369581370}
+        m_TargetAssemblyTypeName: InGameBuyMenu, Assembly-CSharp
+        m_MethodName: SelectTower
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21759,9 +21759,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1582544029}
-        m_TargetAssemblyTypeName: BuildManager, Assembly-CSharp
-        m_MethodName: SetSelectedTower
+      - m_Target: {fileID: 1369581370}
+        m_TargetAssemblyTypeName: InGameBuyMenu, Assembly-CSharp
+        m_MethodName: SelectTower
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -25104,7 +25104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.4862745}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -25142,6 +25142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currencyUI: {fileID: 668560463}
   healthUI: {fileID: 1126005613}
+  MenuPanel: {fileID: 1369581366}
 --- !u!1001 &1370239697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25607,9 +25608,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1582544029}
-        m_TargetAssemblyTypeName: BuildManager, Assembly-CSharp
-        m_MethodName: SetSelectedTower
+      - m_Target: {fileID: 1369581370}
+        m_TargetAssemblyTypeName: InGameBuyMenu, Assembly-CSharp
+        m_MethodName: SelectTower
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -38990,7 +38991,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1369581370}
         m_TargetAssemblyTypeName: InGameBuyMenu, Assembly-CSharp
-        m_MethodName: ToggleMenu
+        m_MethodName: CloseMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

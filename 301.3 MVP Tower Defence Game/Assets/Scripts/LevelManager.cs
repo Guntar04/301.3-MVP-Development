@@ -20,12 +20,15 @@ public class LevelManager : MonoBehaviour
     {
         currency = 250;
         health = 10;
+        InGameBuyMenu.Main.OnGUI();
     }
 
-    public void IncreaseCurrency(int amount) {
+    public void IncreaseCurrency(int amount)
+    {
         currency += amount;
+        InGameBuyMenu.Main.OnGUI();
     }
-    
+
     public void DecreaseHealth(int amount)
     {
         health -= amount;
@@ -35,6 +38,7 @@ public class LevelManager : MonoBehaviour
             Debug.Log("Game Over!");
             // Add game over logic here
         }
+        InGameBuyMenu.Main.OnGUI();
     }
 
     public bool SpendCurrency(int amount)
@@ -42,6 +46,7 @@ public class LevelManager : MonoBehaviour
         if (amount <= currency)
         {
             currency -= amount;
+            InGameBuyMenu.Main.OnGUI();
             return true;
         }
         else
