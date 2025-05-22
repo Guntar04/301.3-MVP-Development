@@ -23,17 +23,17 @@ public class InGameBuyMenu : MonoBehaviour
     public void ToggleMenu(Plot plot)
     {
         isMenuOpen = !isMenuOpen;
-        gameObject.SetActive(isMenuOpen); // Enable or disable the menu GameObject
+        gameObject.SetActive(isMenuOpen);
 
         if (isMenuOpen)
         {
-            selectedPlot = plot; // Store the selected plot
-            Vector2 mousePosition = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
-            transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+            selectedPlot = plot;
+            // Position the menu at the plot's position
+            transform.position = Camera.main.WorldToScreenPoint(plot.transform.position);
         }
         else
         {
-            selectedPlot = null; // Clear the selected plot
+            selectedPlot = null;
         }
     }
 
