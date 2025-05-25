@@ -21,8 +21,8 @@ public class EnemySpawner : MonoBehaviour
 
     public int currentWave = 1;
     private float timeSinceLastSpawn = 0f;
-    private int enemiesAlive;
-    private int enemiesLeftToSpawn;
+    public int enemiesAlive;
+    public int enemiesLeftToSpawn;
     private bool isSpawning = false;
     
     private void Awake()
@@ -53,21 +53,21 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemiesAlive == 0 && enemiesLeftToSpawn == 0)
         {
-            EndWave();
-        }
-
-        if (currentWave >= 11)
-        {
-            isSpawning = false;
-
-
+            if (currentWave >= 10)
+            {
+                isSpawning = false;
+                GameOver.Main.WinGame(); // Show the victory screen
+            }
+            else
+            {
+                EndWave();
+            }
         }
 
         if (LevelManager.Main.health <= 0)
         {
             isSpawning = false;
-            
-            GameOver.Main.ShowGameOver();
+            GameOver.Main.ShowGameOver(); // Show the game over screen
         }
     }
 
