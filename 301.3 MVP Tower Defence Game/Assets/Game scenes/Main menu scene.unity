@@ -291,7 +291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.453}
   m_AnchorMax: {x: 0.5, y: 0.453}
-  m_AnchoredPosition: {x: -8.7404, y: -138}
+  m_AnchoredPosition: {x: -8.3204, y: -171}
   m_SizeDelta: {x: 164.0531, y: -98.02649}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &519195013
@@ -1096,7 +1096,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5241837}
   m_AnchorMax: {x: 0.5, y: 0.5241837}
-  m_AnchoredPosition: {x: -7.9003, y: -81.171}
+  m_AnchoredPosition: {x: -7.9005, y: -100}
   m_SizeDelta: {x: 164.0531, y: -98.0265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1191944459
@@ -1379,7 +1379,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.320404, y: 0}
+  m_AnchoredPosition: {x: -8.320404, y: -28}
   m_SizeDelta: {x: -831.9469, y: -676.0265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1268514174
@@ -1543,7 +1543,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
+  m_TextStyleHashCode: 97690656
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -2199,7 +2199,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.3204, y: 81}
+  m_AnchoredPosition: {x: -8.3204, y: 63.672}
   m_SizeDelta: {x: -831.9469, y: -676.0265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1933532793
