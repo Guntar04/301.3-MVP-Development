@@ -31,7 +31,6 @@ public class InGameBuyMenu : MonoBehaviour
         if (isMenuOpen)
         {
             selectedPlot = plot;
-            // Position the menu at the plot's position
             transform.position = Camera.main.WorldToScreenPoint(plot.transform.position);
         }
         else
