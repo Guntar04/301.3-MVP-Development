@@ -10,7 +10,8 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public static Plot Main;
 
-    public GameObject tower;
+    public GameObject towerObj;
+    public Turret tower;
     private Color startColor;
 
     public bool isSelectingTower;
@@ -37,18 +38,23 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (tower != null) return; // If a tower is already placed, do nothing
+        if (UIManager.Main.IsHoveringUI()) return; // Ignore clicks if hovering over UI
+        if (towerObj != null && tower != null)
+        {
+            tower.OpenUpgradeUI();
+            return; // If a tower is already placed, do nothing
+        }
 
         if (!isSelectingTower)
-        {
-            InGameBuyMenu.Main.ToggleMenu(this);
-            isSelectingTower = true;
-        }
-        else
-        {
-            // If already selecting, ensure state is correct
-            isSelectingTower = false;
-        }
+            {
+                InGameBuyMenu.Main.ToggleMenu(this);
+                isSelectingTower = true;
+            }
+            else
+            {
+                // If already selecting, ensure state is correct
+                isSelectingTower = false;
+            }
     }
 
     public void PlaceTower()
@@ -67,7 +73,8 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             // Deduct currency and place the tower
             LevelManager.Main.SpendCurrency(towerToBuild.cost);
 
-            tower = Instantiate(towerToBuild.prefab, transform.position + offset, Quaternion.identity);
+            towerObj = Instantiate(towerToBuild.prefab, transform.position + offset, Quaternion.identity);
+            tower = towerObj.GetComponent<Turret>();
 
             Debug.Log("Tower placed successfully!");
 
