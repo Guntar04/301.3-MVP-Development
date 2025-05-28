@@ -208,6 +208,7 @@ MonoBehaviour:
   upgradeUI: {fileID: 3983033137813422298}
   upgradedUpgradeUI: {fileID: 0}
   upgradeButton: {fileID: 3404431593216476599}
+  sellButton: {fileID: 8306132052920412095}
   baseSpriteRenderer: {fileID: 3203665327239249367}
   upgradeSprites:
   - {fileID: -5901685104126582622, guid: 0ca65db93284081418669ec79fe48835, type: 3}
@@ -422,3 +423,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 557129036016398255, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
   m_PrefabInstance: {fileID: 3530191405436284789}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8306132052920412095 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4879805747118213322, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
+  m_PrefabInstance: {fileID: 3530191405436284789}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

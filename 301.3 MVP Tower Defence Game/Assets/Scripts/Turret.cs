@@ -12,6 +12,7 @@ public class Turret : MonoBehaviour {
     [SerializeField] private GameObject upgradeUI;
     [SerializeField] private GameObject upgradedUpgradeUI;
     [SerializeField] private Button upgradeButton;
+    [SerializeField] private Button sellButton;
     [SerializeField] private SpriteRenderer baseSpriteRenderer;
     [SerializeField] private Sprite[] upgradeSprites; // 0: base, 1: level 2, 2: level 3
 
@@ -32,8 +33,9 @@ public class Turret : MonoBehaviour {
     {
         bpsBase = bps;
         targetingRangeBase = targetingRange;
-        
+
         upgradeButton.onClick.AddListener(Upgrade);
+        sellButton.onClick.AddListener(Sell);
     }
 
     private void Update()
@@ -109,9 +111,31 @@ public class Turret : MonoBehaviour {
         }
     }
 
+    public void Sell()
+    {
+        Debug.Log("Sell method called.");
+
+        if (sellButton != null) sellButton.interactable = false;
+
+        if (LevelManager.Main == null)
+        {
+            Debug.LogError("LevelManager.Main is null in Sell!");
+            return;
+        }
+
+        // Refund a portion of the cost based on the level
+        int refundAmount = Mathf.RoundToInt(baseUpgradeCost * Mathf.Pow(level, 0.8f) * 0.6f);
+        LevelManager.Main.IncreaseCurrency(refundAmount);
+
+        // Destroy the turret object
+        Destroy(gameObject);
+        Debug.Log($"Turret sold for {refundAmount} currency.");
+    }
+
     public void Upgrade()
     {
-        if (level >= 3) {
+        if (level >= 3)
+        {
             Debug.Log("Max level reached!");
             if (upgradeButton != null) upgradeButton.interactable = false;
             return;
@@ -144,7 +168,8 @@ public class Turret : MonoBehaviour {
                 turretRotationPoint.localPosition = new Vector3(turretRotationPoint.localPosition.x, 0.4f, turretRotationPoint.localPosition.z); // adjust 0.8f as needed
         }
 
-        if (level >= 3 && upgradeButton != null) {
+        if (level >= 3 && upgradeButton != null)
+        {
             upgradeButton.interactable = false;
         }
 
