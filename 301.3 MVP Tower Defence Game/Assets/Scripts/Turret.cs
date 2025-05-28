@@ -163,9 +163,9 @@ public class Turret : MonoBehaviour {
         if (turretRotationPoint != null)
         {
             if (level == 2)
-                turretRotationPoint.localPosition = new Vector3(turretRotationPoint.localPosition.x, 0.2f, turretRotationPoint.localPosition.z); // adjust 0.5f as needed
+                turretRotationPoint.localPosition = new Vector3(turretRotationPoint.localPosition.x, 0.1f, turretRotationPoint.localPosition.z); // adjust 0.5f as needed
             else if (level == 3)
-                turretRotationPoint.localPosition = new Vector3(turretRotationPoint.localPosition.x, 0.4f, turretRotationPoint.localPosition.z); // adjust 0.8f as needed
+                turretRotationPoint.localPosition = new Vector3(turretRotationPoint.localPosition.x, 0.3f, turretRotationPoint.localPosition.z); // adjust 0.8f as needed
         }
 
         if (level >= 3 && upgradeButton != null)
