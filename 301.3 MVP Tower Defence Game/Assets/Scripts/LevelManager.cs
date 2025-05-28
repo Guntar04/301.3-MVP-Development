@@ -1,3 +1,4 @@
+using UnityEditor.SearchService;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -18,8 +19,19 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        currency = 250;
-        health = 10;
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Level 4" ||
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Level 5" ||
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Level 6")
+        {
+            currency = 350;
+            
+        }
+        else
+        {
+            currency = 250;
+        }
+
+        health = 10; 
         InGameBuyMenu.Main.OnGUI();
     }
 

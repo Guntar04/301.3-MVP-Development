@@ -38,7 +38,7 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (UIManager.Main.IsHoveringUI()) return; // Ignore clicks if hovering over UI
+        
         if (towerObj != null && tower != null)
         {
             tower.OpenUpgradeUI();

@@ -5,12 +5,19 @@ public class UpgradeUIHandler : MonoBehaviour, IPointerEnterHandler, IPointerExi
 {
     public void OnPointerEnter(PointerEventData eventData)
     {
-        UIManager.Main.SetHoveringState(true);
+        if (UIManager.Main != null)
+        {
+            UIManager.Main.SetHoveringState(true);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        UIManager.Main.SetHoveringState(false);
+        if (UIManager.Main != null)
+        {
+            UIManager.Main.SetHoveringState(false);
+        }
+
         gameObject.SetActive(false); // Hide the upgrade UI when not hovering
     }
 }

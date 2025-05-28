@@ -8,7 +8,8 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        Main = this;
+        Main = this; // Assign the static reference
+        Debug.Log("UIManager initialized.");
     }
 
     public void SetHoveringState(bool state)

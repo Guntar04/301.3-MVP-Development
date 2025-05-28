@@ -98,10 +98,15 @@ public class Turret : MonoBehaviour {
         }
     }
 
-    public void CloseUpgradeUI() {
+    public void CloseUpgradeUI()
+    {
         if (upgradeUI != null) upgradeUI.SetActive(false);
         if (upgradedUpgradeUI != null) upgradedUpgradeUI.SetActive(false);
-        UIManager.Main.SetHoveringState(false);
+
+        if (UIManager.Main != null)
+        {
+            UIManager.Main.SetHoveringState(false);
+        }
     }
 
     public void Upgrade()
