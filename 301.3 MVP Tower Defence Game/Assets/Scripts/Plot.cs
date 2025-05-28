@@ -41,9 +41,13 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
         if (!isSelectingTower)
         {
-            // Open the menu and pass this plot to the menu
             InGameBuyMenu.Main.ToggleMenu(this);
             isSelectingTower = true;
+        }
+        else
+        {
+            // If already selecting, ensure state is correct
+            isSelectingTower = false;
         }
     }
 

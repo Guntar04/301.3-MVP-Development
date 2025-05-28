@@ -28,6 +28,12 @@ public class InGameBuyMenu : MonoBehaviour
         isMenuOpen = !isMenuOpen;
         gameObject.SetActive(isMenuOpen);
 
+        // If a plot was already selected and it's not the same as the new one, reset it
+        if (selectedPlot != null && selectedPlot != plot)
+        {
+            selectedPlot.CancelSelection();
+        }
+
         if (isMenuOpen)
         {
             selectedPlot = plot;
@@ -35,7 +41,11 @@ public class InGameBuyMenu : MonoBehaviour
         }
         else
         {
-            selectedPlot = null;
+            if (selectedPlot != null)
+            {
+                selectedPlot.CancelSelection();
+                selectedPlot = null;
+            }
         }
     }
 
