@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 781032683600758877}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.09, z: 0}
+  m_LocalPosition: {x: 0, y: -0.839, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 1458553775
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 6201115216396246476, guid: 9fbc0ab1f66da914eaaa3cc7062a6181, type: 3}
+  m_Sprite: {fileID: -2493458000671406861, guid: e5e461fbb6675514aa0e16af7cea0707, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -208,15 +208,16 @@ MonoBehaviour:
   upgradeUI: {fileID: 8266525055902658088}
   upgradedUpgradeUI: {fileID: 0}
   upgradeButton: {fileID: 7692415670214077253}
+  upgradeCostText: {fileID: 8282904713505141331}
   sellButton: {fileID: 3943820856740120909}
   baseSpriteRenderer: {fileID: 3203665327239249367}
   upgradeSprites:
-  - {fileID: 6201115216396246476, guid: 9fbc0ab1f66da914eaaa3cc7062a6181, type: 3}
-  - {fileID: 1935008966, guid: 9fbc0ab1f66da914eaaa3cc7062a6181, type: 3}
-  - {fileID: -282438579, guid: 9fbc0ab1f66da914eaaa3cc7062a6181, type: 3}
+  - {fileID: -2493458000671406861, guid: e5e461fbb6675514aa0e16af7cea0707, type: 3}
+  - {fileID: 7694413504567393113, guid: e5e461fbb6675514aa0e16af7cea0707, type: 3}
+  - {fileID: 7136563893629352388, guid: e5e461fbb6675514aa0e16af7cea0707, type: 3}
   targetingRange: 6
   rotationSpeed: 170
-  bps: 0.8
+  bps: 1
   baseUpgradeCost: 100
 --- !u!1 &6629836823207535150
 GameObject:
@@ -234,7 +235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6271199913092827075
 Transform:
   m_ObjectHideFlags: 0
@@ -434,3 +435,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 557129036016398255, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
   m_PrefabInstance: {fileID: 8431804296527446407}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8282904713505141331 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 572239341737243604, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
+  m_PrefabInstance: {fileID: 8431804296527446407}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

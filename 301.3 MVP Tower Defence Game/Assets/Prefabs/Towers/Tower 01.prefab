@@ -208,6 +208,7 @@ MonoBehaviour:
   upgradeUI: {fileID: 3983033137813422298}
   upgradedUpgradeUI: {fileID: 0}
   upgradeButton: {fileID: 3404431593216476599}
+  upgradeCostText: {fileID: 3966759533453958305}
   sellButton: {fileID: 8306132052920412095}
   baseSpriteRenderer: {fileID: 3203665327239249367}
   upgradeSprites:
@@ -317,6 +318,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Upgrade UI
       objectReference: {fileID: 0}
+    - target: {fileID: 572239341737243604, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
+      propertyPath: m_text
+      value: Price!
+      objectReference: {fileID: 0}
     - target: {fileID: 3654587527550855661, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -416,6 +421,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3966759533453958305 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 572239341737243604, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
+  m_PrefabInstance: {fileID: 3530191405436284789}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3983033137813422298 stripped

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 using System;
+using TMPro;
 
 public class Turret : MonoBehaviour {
     [Header("References")]
@@ -12,6 +13,7 @@ public class Turret : MonoBehaviour {
     [SerializeField] private GameObject upgradeUI;
     [SerializeField] private GameObject upgradedUpgradeUI;
     [SerializeField] private Button upgradeButton;
+    [SerializeField] private TextMeshProUGUI upgradeCostText;
     [SerializeField] private Button sellButton;
     [SerializeField] private SpriteRenderer baseSpriteRenderer;
     [SerializeField] private Sprite[] upgradeSprites; // 0: base, 1: level 2, 2: level 3
@@ -36,6 +38,8 @@ public class Turret : MonoBehaviour {
 
         upgradeButton.onClick.AddListener(Upgrade);
         sellButton.onClick.AddListener(Sell);
+
+        UpdateUpgradeCostText(); // Initialize the upgrade cost text
     }
 
     private void Update()
@@ -62,6 +66,8 @@ public class Turret : MonoBehaviour {
                 timeUntilFire = 0f;
             }
         }
+
+        UpdateUpgradeCostText();
     }
 
     private void Shoot() {
@@ -71,12 +77,28 @@ public class Turret : MonoBehaviour {
         bulletScript.SetTarget(target);
     }
 
-    private void FindTarget() {
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);
+    private void FindTarget()
+    {
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, Vector2.zero, 0f, enemyMask);
 
-        if (hits.Length > 0) {
-            target = hits[0].transform;
+        Transform frontEnemy = null;
+        float maxProgress = float.MinValue;
+
+        foreach (var hit in hits)
+        {
+            EnemyMovement enemy = hit.transform.GetComponent<EnemyMovement>();
+            if (enemy != null)
+            {
+                // Use pathIndex to determine progress along the path
+                if (enemy.GetPathProgress() > maxProgress)
+                {
+                    maxProgress = enemy.GetPathProgress();
+                    frontEnemy = enemy.transform;
+                }
+            }
         }
+
+        target = frontEnemy;
     }
 
     private bool CheckTargetIsInRange() {
@@ -93,6 +115,7 @@ public class Turret : MonoBehaviour {
     public void OpenUpgradeUI() {
         if (level < 3) {
             upgradeUI.SetActive(true);
+            
             if (upgradedUpgradeUI != null) upgradedUpgradeUI.SetActive(false);
         } else {
             if (upgradeUI != null) upgradeUI.SetActive(false);
@@ -140,6 +163,7 @@ public class Turret : MonoBehaviour {
             if (upgradeButton != null) upgradeButton.interactable = false;
             return;
         }
+
         if (CalculateCost() > LevelManager.Main.currency)
         {
             Debug.Log("You can't afford this upgrade");
@@ -173,18 +197,19 @@ public class Turret : MonoBehaviour {
             upgradeButton.interactable = false;
         }
 
+        UpdateUpgradeCostText(); // Update the cost text after upgrading
         CloseUpgradeUI();
         Debug.Log($"Turret upgraded to level {level}. New BPS: {bps}, New Range: {targetingRange}, New Cost: {CalculateCost()}");
     }
 
         private int CalculateCost()
     {
-        return Mathf.RoundToInt(baseUpgradeCost * Mathf.Pow(level, 0.8f));
+        return Mathf.RoundToInt(baseUpgradeCost * Mathf.Pow(level, 0.5f));
     }
     
     private float CalculateRange()
     {
-        return Mathf.Round(targetingRangeBase * Mathf.Pow(level, 0.5f));
+        return Mathf.Round(targetingRangeBase * Mathf.Pow(level, 0.1f));
     }
 
     private float CalculateBPS()
@@ -200,4 +225,18 @@ public class Turret : MonoBehaviour {
 
     }
 
+    private void UpdateUpgradeCostText()
+{
+    if (upgradeCostText != null)
+    {
+        if (level >= 3)
+        {
+            upgradeCostText.text = "Max Level";
+        }
+        else
+        {
+            upgradeCostText.text = $"Cost: {CalculateCost()}";
+        }
+    }
+}
 }
