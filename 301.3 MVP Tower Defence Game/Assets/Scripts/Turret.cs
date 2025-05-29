@@ -192,17 +192,17 @@ public class Turret : MonoBehaviour {
                 turretRotationPoint.localPosition = new Vector3(turretRotationPoint.localPosition.x, 0.3f, turretRotationPoint.localPosition.z); // adjust 0.8f as needed
         }
 
-        if (level >= 3 && upgradeButton != null)
-        {
-            upgradeButton.interactable = false;
-        }
+        // if (level >= 3 && upgradeButton != null)
+        // {
+        //     upgradeButton.interactable = false;
+        // }
 
         UpdateUpgradeCostText(); // Update the cost text after upgrading
         CloseUpgradeUI();
         Debug.Log($"Turret upgraded to level {level}. New BPS: {bps}, New Range: {targetingRange}, New Cost: {CalculateCost()}");
     }
 
-        private int CalculateCost()
+    private int CalculateCost()
     {
         return Mathf.RoundToInt(baseUpgradeCost * Mathf.Pow(level, 0.5f));
     }
@@ -214,7 +214,7 @@ public class Turret : MonoBehaviour {
 
     private float CalculateBPS()
     {
-        return Mathf.Round(bpsBase * Mathf.Pow(level, 0.3f));
+        return Mathf.Round(bpsBase * Mathf.Pow(level, 0.5f));
     }  
 
     private void OnDrawGizmosSelected()
