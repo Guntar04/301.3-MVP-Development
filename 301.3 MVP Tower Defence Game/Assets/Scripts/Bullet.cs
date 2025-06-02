@@ -22,36 +22,42 @@ public class Bullet : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (!target) return;
+        if (!target)
+        {
+            Destroy(gameObject); // Destroy the bullet if the target is gone
+            return;
+        }
 
-        Vector2 direction = (target.position - transform.position).normalized;  
+        Vector2 direction = (target.position - transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle - 90);
 
         rb.linearVelocity = direction * bulletSpeed;
 
-        Destroy(gameObject, 6f); // Destroy the bullet after 5 seconds
+        if (Vector2.Distance(transform.position, target.position) <= 0.1f)
+        {
+            HitTarget();
+        }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void HitTarget()
     {
-        var healthComponent = other.gameObject.GetComponent<Health>();
-        if (healthComponent == null) return;
-
-        if (physicalDamage > 0)
+        var healthComponent = target.GetComponent<Health>();
+        if (healthComponent != null)
         {
-            int effectivePhysicalDamage = Mathf.Max((int)physicalDamage - Mathf.RoundToInt(physicalDamage * (healthComponent.physicalArmor / 50f)), 0);
-            Debug.Log("Hit " + other.gameObject.name + " for " + effectivePhysicalDamage + " physical damage.");
-            healthComponent.TakeDamage(effectivePhysicalDamage);
+            if (physicalDamage > 0)
+            {
+                int effectivePhysicalDamage = Mathf.Max((int)physicalDamage - Mathf.RoundToInt(physicalDamage * (healthComponent.physicalArmor / 50f)), 0);
+                healthComponent.TakeDamage(effectivePhysicalDamage);
+            }
+
+            if (magicDamage > 0)
+            {
+                int effectiveMagicDamage = Mathf.Max((int)magicDamage - Mathf.RoundToInt(magicDamage * (healthComponent.magicArmor / 50f)), 0);
+                healthComponent.TakeDamage(effectiveMagicDamage);
+            }
         }
 
-        if (magicDamage > 0)
-        {
-            int effectiveMagicDamage = Mathf.Max((int)magicDamage - Mathf.RoundToInt(magicDamage * (healthComponent.magicArmor / 50f)), 0);
-            Debug.Log("Hit " + other.gameObject.name + " for " + effectiveMagicDamage + " magic damage.");
-            healthComponent.TakeDamage(effectiveMagicDamage);
-        }
-
-        Destroy(gameObject);
+        Destroy(gameObject); // Destroy the bullet after hitting the target
     }
 }

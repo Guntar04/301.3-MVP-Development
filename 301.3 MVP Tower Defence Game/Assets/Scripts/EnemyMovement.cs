@@ -22,6 +22,7 @@ public class EnemyMovement : MonoBehaviour
 
             if (pathIndex == LevelManager.Main.path.Length) {
                 EnemySpawner.enemyKilled.Invoke();
+                LevelManager.Main.DecreaseHealth(1);
                 Destroy(gameObject);
                 return;
             }
@@ -35,5 +36,19 @@ public class EnemyMovement : MonoBehaviour
         Vector2 direction = (target.position - transform.position).normalized;
         
         rb.linearVelocity = direction * moveSpeed;
+    }
+
+    public float GetPathProgress()
+    {
+        if (pathIndex >= LevelManager.Main.path.Length)
+            return float.MaxValue; // Enemy has reached the end of the path
+
+        if (pathIndex == 0)
+            return 0f; // Enemy is at the start of the path
+
+        float distanceToNextWaypoint = Vector2.Distance(transform.position, LevelManager.Main.path[pathIndex].position);
+        float distanceBetweenWaypoints = Vector2.Distance(LevelManager.Main.path[pathIndex - 1].position, LevelManager.Main.path[pathIndex].position);
+
+        return pathIndex + (1f - (distanceToNextWaypoint / distanceBetweenWaypoints));
     }
 }
