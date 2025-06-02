@@ -34171,6 +34171,7 @@ MonoBehaviour:
   - {fileID: 4315680956355306924, guid: 95a75ed1859f44b40a66e58bac3924ba, type: 3}
   - {fileID: 4315680956355306924, guid: 5d8c4cf7fbdf66444ad24655ee37a96f, type: 3}
   - {fileID: 4315680956355306924, guid: 47bb8a12790007b40b8db1890ee47648, type: 3}
+  - {fileID: 4315680956355306924, guid: 84dc4dd3b0caa054394d9999eccd794a, type: 3}
   baseEnemies: 8
   enemiesPerSecond: 0.5
   timeBetweenWaves: 5
@@ -34178,6 +34179,7 @@ MonoBehaviour:
   currentWave: 10
   enemiesAlive: 0
   enemiesLeftToSpawn: 0
+  upcomingWave: 0
 --- !u!114 &1582544029
 MonoBehaviour:
   m_ObjectHideFlags: 0
