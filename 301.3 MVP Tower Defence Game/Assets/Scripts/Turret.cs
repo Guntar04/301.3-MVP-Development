@@ -135,7 +135,7 @@ public class Turret : MonoBehaviour {
 
     public void Sell()
     {
-        Debug.Log("Sell method called.");
+        //Debug.Log("Sell method called.");
 
         if (sellButton != null) sellButton.interactable = false;
 
@@ -151,14 +151,14 @@ public class Turret : MonoBehaviour {
 
         // Destroy the turret object
         Destroy(gameObject);
-        Debug.Log($"Turret sold for {refundAmount} currency.");
+        //Debug.Log($"Turret sold for {refundAmount} currency.");
     }
 
     public void Upgrade()
     {
         if (level >= 3)
         {
-            Debug.Log("Max level reached!");
+            //Debug.Log("Max level reached!");
             if (upgradeButton != null) upgradeButton.interactable = false;
             return;
         }
@@ -178,7 +178,7 @@ public class Turret : MonoBehaviour {
         // Change the base sprite if an upgraded sprite exists
         if (baseSpriteRenderer != null && upgradeSprites != null && level - 1 < upgradeSprites.Length)
         {
-            Debug.Log("Setting base sprite to: " + upgradeSprites[level - 1]);
+            //Debug.Log("Setting base sprite to: " + upgradeSprites[level - 1]);
             baseSpriteRenderer.sprite = upgradeSprites[level - 1];
         }
 
@@ -198,7 +198,7 @@ public class Turret : MonoBehaviour {
 
         UpdateUpgradeCostText(); // Update the cost text after upgrading
         CloseUpgradeUI();
-        Debug.Log($"Turret upgraded to level {level}. New BPS: {bps}, New Range: {targetingRange}, New Cost: {CalculateCost()}");
+        //Debug.Log($"Turret upgraded to level {level}. New BPS: {bps}, New Range: {targetingRange}, New Cost: {CalculateCost()}");
     }
 
     private int CalculateCost()

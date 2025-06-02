@@ -64,7 +64,7 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
         if (towerToBuild.cost > LevelManager.Main.currency)
         {
-            Debug.Log("You can't afford this tower");
+            //Debug.Log("You can't afford this tower");
             isSelectingTower = false; // Reset the selection state
             return; // Exit without placing a tower or resetting the flag
         }
@@ -76,7 +76,7 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             towerObj = Instantiate(towerToBuild.prefab, transform.position + offset, Quaternion.identity);
             tower = towerObj.GetComponent<Turret>();
 
-            Debug.Log("Tower placed successfully!");
+            //Debug.Log("Tower placed successfully!");
 
             // Close the menu after placing the tower
             InGameBuyMenu.Main.CloseMenu();

@@ -18,7 +18,7 @@ public class BuildManager : MonoBehaviour
     {
         if (selectedTower == -1)
         {
-            Debug.LogError("No tower selected!");
+            //Debug.LogError("No tower selected!");
             return null;
         }
         return towers[selectedTower];
@@ -27,7 +27,7 @@ public class BuildManager : MonoBehaviour
     public void SetSelectedTower(int _selectedTower, Plot selectedPlot)
     {
         selectedTower = _selectedTower;
-        Debug.Log("Selected tower: " + towers[selectedTower].name);
+        //Debug.Log("Selected tower: " + towers[selectedTower].name);
 
         // Place the tower on the selected plot
         if (selectedPlot != null)
