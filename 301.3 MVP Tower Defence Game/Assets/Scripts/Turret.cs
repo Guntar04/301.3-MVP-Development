@@ -11,7 +11,7 @@ public class Turret : MonoBehaviour {
     [SerializeField] private GameObject[] bulletPrefab;
     [SerializeField] private Transform firingPoint;
     [SerializeField] private GameObject upgradeUI;
-    [SerializeField] private GameObject upgradedUpgradeUI;
+    [SerializeField] private TextMeshProUGUI towerLevelText;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private TextMeshProUGUI upgradeCostText;
     [SerializeField] private Button sellButton;
@@ -113,20 +113,19 @@ public class Turret : MonoBehaviour {
     }
     
     public void OpenUpgradeUI() {
-        if (level < 3) {
-            upgradeUI.SetActive(true);
-            
-            if (upgradedUpgradeUI != null) upgradedUpgradeUI.SetActive(false);
-        } else {
+        if (level <= 3)
+        {
+            upgradeUI.SetActive(true);  
+        }
+        else
+        {
             if (upgradeUI != null) upgradeUI.SetActive(false);
-            if (upgradedUpgradeUI != null) upgradedUpgradeUI.SetActive(true);
         }
     }
 
     public void CloseUpgradeUI()
     {
         if (upgradeUI != null) upgradeUI.SetActive(false);
-        if (upgradedUpgradeUI != null) upgradedUpgradeUI.SetActive(false);
 
         if (UIManager.Main != null)
         {
@@ -229,14 +228,15 @@ public class Turret : MonoBehaviour {
 {
     if (upgradeCostText != null)
     {
+            towerLevelText.text = "Lv: " + level;
         if (level >= 3)
-        {
-            upgradeCostText.text = "Max Level";
-        }
-        else
-        {
-            upgradeCostText.text = $"Cost: {CalculateCost()}";
-        }
+            {
+                upgradeCostText.text = "Max Level";
+            }
+            else
+            {
+                upgradeCostText.text = $"Cost: {CalculateCost()}";
+            }
     }
 }
 }

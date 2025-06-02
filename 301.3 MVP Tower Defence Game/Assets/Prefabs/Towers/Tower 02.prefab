@@ -206,7 +206,7 @@ MonoBehaviour:
   - {fileID: 1558567190759146888, guid: 08e7732b1f4285b4bb3794f6c5605306, type: 3}
   firingPoint: {fileID: 6541414004813205753}
   upgradeUI: {fileID: 7055723588911093543}
-  upgradedUpgradeUI: {fileID: 0}
+  towerLevelText: {fileID: 6349080103189721213}
   upgradeButton: {fileID: 8760236636220969546}
   upgradeCostText: {fileID: 7034805647605730140}
   sellButton: {fileID: 2731762656684273730}
@@ -419,6 +419,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3654587527550855661, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
   m_PrefabInstance: {fileID: 7372857480146319496}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6349080103189721213 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4489473547087661301, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
+  m_PrefabInstance: {fileID: 7372857480146319496}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7034805647605730140 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 572239341737243604, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
