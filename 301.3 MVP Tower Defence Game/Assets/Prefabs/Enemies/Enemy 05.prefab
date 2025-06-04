@@ -181,6 +181,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 16
-  currencyWorth: 16
+  currencyWorth: 12
   physicalArmor: 15
   magicArmor: 20

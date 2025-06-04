@@ -26,6 +26,11 @@ public class EnemySpawner : MonoBehaviour
     public int enemiesLeftToSpawn;
     public int upcomingWave;
     private bool isSpawning = false;
+    public int enemiesReachedPathPoint = 0;
+    public int enemiesReachedEndpoint = 0; // Track enemies that reached the endpoint
+
+    private Transform target;
+    private int pathIndex = 0;
 
 
     private void Awake()
@@ -36,13 +41,37 @@ public class EnemySpawner : MonoBehaviour
     }
 
 
-    private void Start() {
+    private void Start()
+    {
+        if (LevelManager.Main.path.Length > 0)
+        {
+            target = LevelManager.Main.path[pathIndex];
+        }
+        else
+        {
+            Debug.LogError("LevelManager.Main.path is empty! Ensure waypoints are assigned.");
+        }
+
         StartCoroutine(StartWave());
     }
 
     private void Update()
     {
         if (!isSpawning) return;
+
+        if (LevelManager.Main == null || LevelManager.Main.health <= 0)
+        {
+            Debug.LogError("LevelManager.Main is null or health is zero!");
+            isSpawning = false;
+            GameOver.Main.ShowGameOver();
+            return;
+        }
+
+        if (target == null)
+        {
+            Debug.LogError("Target is null! Ensure waypoints are assigned.");
+            return;
+        }
 
         timeSinceLastSpawn += Time.deltaTime;
 
@@ -55,40 +84,54 @@ public class EnemySpawner : MonoBehaviour
             timeSinceLastSpawn = 0f;
         }
 
-        if (enemiesAlive == 0 && enemiesLeftToSpawn == 0)
+        if (Vector2.Distance(target.position, transform.position) <= 0.1f)
         {
-            if (currentWave >= 10)
+            pathIndex++;
+
+            if (pathIndex == LevelManager.Main.path.Length)
             {
-                isSpawning = false;
-                GameOver.Main.WinGame(); // Show the victory screen
+                EnemySpawner.enemyKilled.Invoke();
+                LevelManager.Main.DecreaseHealth(1);
+                Destroy(gameObject);
+                return;
             }
             else
             {
-                EndWave();
+                target = LevelManager.Main.path[pathIndex];
             }
         }
 
-        if (LevelManager.Main.health <= 0)
+        if (enemiesLeftToSpawn <= 0 && enemiesAlive <= 0)
         {
-            isSpawning = false;
-            GameOver.Main.ShowGameOver(); // Show the game over screen
+            EndWave();
         }
+
     }
 
-    private void OnEnemyKilled() {
+    private void OnEnemyKilled()
+    {
         enemiesAlive--;
     }
 
-    private IEnumerator StartWave() {
+    private IEnumerator StartWave()
+    {
+        enemiesReachedPathPoint = 0; // Reset the halfway counter for the new wave
+        enemiesReachedEndpoint = 0;  // Reset the endpoint counter for the new wave
         yield return new WaitForSeconds(timeBetweenWaves);
+
         isSpawning = true;
-        enemiesLeftToSpawn = EnemiesPerWave();
+        enemiesLeftToSpawn = EnemiesPerWave(); // Calculate the number of enemies for the wave
+        //Debug.Log($"Starting Wave {currentWave}: Enemies to Spawn = {enemiesLeftToSpawn}");
     }
 
-    private void EndWave() {
+    private void EndWave()
+    {
         isSpawning = false;
         timeSinceLastSpawn = 0f;
-        currentWave++;
+
+        Debug.Log($"Wave {currentWave} ended. Preparing for next wave...");
+        currentWave++; // Increment the wave counter
+
         StartCoroutine(StartWave());
     }
 
@@ -133,7 +176,13 @@ public class EnemySpawner : MonoBehaviour
 
     private int EnemiesPerWave()
     {
-        upcomingWave = Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
-        return AIWaveHandler.Main.AdjustWaveDifficulty(upcomingWave);
+        // Calculate the base number of enemies for the wave
+        int baseWaveEnemies = Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
+
+        // Adjust the wave difficulty based on enemy progress
+        upcomingWave = AIWaveHandler.Main.AdjustWaveDifficulty(baseWaveEnemies);
+
+        Debug.Log($"Wave {currentWave}: Base Enemies = {baseWaveEnemies}, Adjusted Enemies = {upcomingWave}");
+        return upcomingWave;
     }
 }

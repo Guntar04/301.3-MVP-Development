@@ -31042,6 +31042,7 @@ MonoBehaviour:
   enemiesAlive: 0
   enemiesLeftToSpawn: 0
   upcomingWave: 0
+  enemiesReachedPathPoint: 0
 --- !u!114 &1582544029
 MonoBehaviour:
   m_ObjectHideFlags: 0

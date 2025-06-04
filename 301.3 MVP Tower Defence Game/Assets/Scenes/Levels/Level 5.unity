@@ -44178,6 +44178,7 @@ GameObject:
   - component: {fileID: 1582544026}
   - component: {fileID: 1582544028}
   - component: {fileID: 1582544029}
+  - component: {fileID: 1582544030}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -44251,6 +44252,8 @@ MonoBehaviour:
   currentWave: 1
   enemiesAlive: 0
   enemiesLeftToSpawn: 0
+  upcomingWave: 0
+  enemiesReachedPathPoint: 0
 --- !u!114 &1582544029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44273,6 +44276,18 @@ MonoBehaviour:
   - name: Mage
     cost: 100
     prefab: {fileID: 6614194203690117329, guid: 33978ffe19212b34bb181a897ec2c0db, type: 3}
+--- !u!114 &1582544030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582544024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769ca5341b15aa241a0aa0e6758ac96c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1589861226
 PrefabInstance:
   m_ObjectHideFlags: 0
