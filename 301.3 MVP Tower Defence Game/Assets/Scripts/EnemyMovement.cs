@@ -20,7 +20,7 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            Debug.LogError("LevelManager.Main.path is empty! Ensure waypoints are assigned.");
+            Debug.LogError("LevelManager.Main.path is empty");
         }
     }
 
@@ -50,10 +50,8 @@ public class EnemyMovement : MonoBehaviour
             // // Notify EnemySpawner when the enemy reaches the halfway point
             if (pathIndex == LevelManager.Main.path.Length / 2) // Halfway through the path
             {
-                //Debug.Log("Enemy reached halfway point, incrementing enemiesReachedPathPoint.");
                 EnemySpawner.Main.enemiesReachedPathPoint++;
-                // Debug.Log($"Enemies reached halfway point: {EnemySpawner.Main.enemiesReachedPathPoint}");
-                
+                //Debug.Log($"Enemy reached halfway point. Total halfway count: {EnemySpawner.Main.enemiesReachedPathPoint}");
             }
         }
     }

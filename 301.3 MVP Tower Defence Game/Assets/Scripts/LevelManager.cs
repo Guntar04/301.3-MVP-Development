@@ -44,7 +44,7 @@ public class LevelManager : MonoBehaviour
     public void DecreaseHealth(int amount)
     {
         health -= amount;
-        Debug.Log("Player health decreased. Current health: " + health);
+        //Debug.Log("Player health decreased. Current health: " + health);
         if (health <= 0)
         {
             Debug.Log("Game Over!");

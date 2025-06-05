@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
-    
+
     [Header("References")]
     [SerializeField] private GameObject[] enemyPrefabs;
 
@@ -129,8 +129,12 @@ public class EnemySpawner : MonoBehaviour
         isSpawning = false;
         timeSinceLastSpawn = 0f;
 
-        Debug.Log($"Wave {currentWave} ended. Preparing for next wave...");
+        //Debug.Log($"Wave {currentWave} ended. Preparing for next wave...");
         currentWave++; // Increment the wave counter
+
+        // Adjust difficulty after the wave ends
+        upcomingWave = EnemiesPerWave();
+        Debug.Log($"Adjusting Difficulty: Upcoming Wave = {upcomingWave}, Enemies Reached Halfway = {AIWaveHandler.Main.enemiesThatReachedPoint}, Enemies Reached Endpoint = {AIWaveHandler.Main.enemiesThatReachedEndpoint}, Enemies Failed = {AIWaveHandler.Main.enemiesThatFailed}");
 
         StartCoroutine(StartWave());
     }
@@ -182,7 +186,8 @@ public class EnemySpawner : MonoBehaviour
         // Adjust the wave difficulty based on enemy progress
         upcomingWave = AIWaveHandler.Main.AdjustWaveDifficulty(baseWaveEnemies);
 
-        Debug.Log($"Wave {currentWave}: Base Enemies = {baseWaveEnemies}, Adjusted Enemies = {upcomingWave}");
+        //Debug.Log($"Wave {currentWave}: Base Enemies = {baseWaveEnemies}, Adjusted Enemies = {upcomingWave}");
         return upcomingWave;
     }
+    
 }
