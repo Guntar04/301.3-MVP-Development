@@ -129,10 +129,17 @@ public class EnemySpawner : MonoBehaviour
         isSpawning = false;
         timeSinceLastSpawn = 0f;
 
-        //Debug.Log($"Wave {currentWave} ended. Preparing for next wave...");
         currentWave++; // Increment the wave counter
 
-        // Adjust difficulty after the wave ends
+        // Check if the last wave is completed
+        if (currentWave > 10)
+        {
+            // Game won!
+            GameOver.Main.WinGame();
+            return;
+        }
+
+        // Otherwise, start the next wave
         upcomingWave = EnemiesPerWave();
         Debug.Log($"Adjusting Difficulty: Upcoming Wave = {upcomingWave}, Enemies Reached Halfway = {AIWaveHandler.Main.enemiesThatReachedPoint}, Enemies Reached Endpoint = {AIWaveHandler.Main.enemiesThatReachedEndpoint}, Enemies Failed = {AIWaveHandler.Main.enemiesThatFailed}");
 

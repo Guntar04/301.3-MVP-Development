@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro; // Add this line for TextMeshPro
 
 public class GameOver : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameOver : MonoBehaviour
     [SerializeField] Button quitButton01; // Assign the quit button in the Inspector
     [SerializeField] Button quitButton02; // Assign the quit button in the Inspector
     [SerializeField] GameObject winPanel; // Assign the win panel in the Inspector
+    [SerializeField] private GameObject[] starIcons; // Array of 3 star GameObjects
 
     public static GameOver Main;
 
@@ -60,5 +62,15 @@ public class GameOver : MonoBehaviour
     {
         winPanel.SetActive(true);
         Time.timeScale = 0f; // Pause the game
+
+        int stars = StarSystem.Main.CalculateStars(LevelManager.Main.health);
+
+        // Hide all star icons first
+        for (int i = 0; i < starIcons.Length; i++)
+            starIcons[i].SetActive(false);
+
+        // Show only the correct star icon (index is stars-1, since 1 star = element 0, etc.)
+        if (stars > 0 && stars <= starIcons.Length)
+            starIcons[stars - 1].SetActive(true);
     }
 }

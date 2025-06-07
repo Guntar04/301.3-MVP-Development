@@ -9,7 +9,6 @@ public class InGameBuyMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI healthUI;
     [SerializeField] TextMeshProUGUI waveUI;
     [SerializeField] TextMeshProUGUI endWaveUI;
-    [SerializeField] TextMeshProUGUI finalHealthUI;
 
     public static InGameBuyMenu Main { get; private set; }
 
@@ -75,6 +74,5 @@ public class InGameBuyMenu : MonoBehaviour
         healthUI.text = LevelManager.Main.health.ToString();
         waveUI.text = EnemySpawner.Main.currentWave.ToString();
         endWaveUI.text = EnemySpawner.Main.currentWave.ToString();
-        finalHealthUI.text = LevelManager.Main.health.ToString();
     }
 }
