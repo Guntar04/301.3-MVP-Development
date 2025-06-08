@@ -115,12 +115,12 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator StartWave()
     {
+        enemiesLeftToSpawn = upcomingWave = EnemiesPerWave(); // Get the number of enemies for the upcoming wave
         enemiesReachedPathPoint = 0; // Reset the halfway counter for the new wave
         enemiesReachedEndpoint = 0;  // Reset the endpoint counter for the new wave
         yield return new WaitForSeconds(timeBetweenWaves);
 
         isSpawning = true;
-        enemiesLeftToSpawn = EnemiesPerWave(); // Calculate the number of enemies for the wave
         //Debug.Log($"Starting Wave {currentWave}: Enemies to Spawn = {enemiesLeftToSpawn}");
     }
 
@@ -133,9 +133,7 @@ public class EnemySpawner : MonoBehaviour
         currentWave++; // Increment the wave counter
 
         // Adjust difficulty after the wave ends
-        upcomingWave = EnemiesPerWave();
-        Debug.Log($"Adjusting Difficulty: Upcoming Wave = {upcomingWave}, Enemies Reached Halfway = {AIWaveHandler.Main.enemiesThatReachedPoint}, Enemies Reached Endpoint = {AIWaveHandler.Main.enemiesThatReachedEndpoint}, Enemies Failed = {AIWaveHandler.Main.enemiesThatFailed}");
-
+        //upcomingWave = EnemiesPerWave();
         StartCoroutine(StartWave());
     }
 
