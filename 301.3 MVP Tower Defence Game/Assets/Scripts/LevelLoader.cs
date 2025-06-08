@@ -13,7 +13,7 @@ public class LevelLoader : MonoBehaviour
     public void Openscene()
     {
 
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene("level select scene");
     }
  
 }
