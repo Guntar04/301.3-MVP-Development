@@ -11,8 +11,8 @@ public class Mainmenu : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit();
-        Debug.Log("QUIT");
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
-
 }
