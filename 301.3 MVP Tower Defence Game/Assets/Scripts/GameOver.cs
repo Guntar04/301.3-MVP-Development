@@ -12,6 +12,9 @@ public class GameOver : MonoBehaviour
     [SerializeField] Button quitButton02; // Assign the quit button in the Inspector
     [SerializeField] GameObject winPanel; // Assign the win panel in the Inspector
     [SerializeField] private GameObject[] starIcons; // Array of 3 star GameObjects
+    [SerializeField] Button speedButton; // Assign the speed button in the Inspector
+    [SerializeField] private Image speedButtonImage; // Assign the default speed button sprite in the Inspector
+    [SerializeField] private Sprite[] speedButtonSprites; // Assign the speed button sprites in the Inspector
 
     public static GameOver Main;
 
@@ -30,6 +33,10 @@ public class GameOver : MonoBehaviour
         {
             resumeButton.onClick.AddListener(ResumeGame);
         }
+        if (speedButton != null)
+        {
+            speedButton.onClick.AddListener(SpeedOfGame);
+        }
         if (quitButton01 != null)
         {
             quitButton01.onClick.AddListener(QuitGame);
@@ -47,6 +54,27 @@ public class GameOver : MonoBehaviour
         pausePanel.SetActive(true);
         Time.timeScale = 0f; // Pause the game
     }
+
+    public void SpeedOfGame()
+    {
+        if (Time.timeScale == 1f)
+        {
+            Time.timeScale = 2f; // Speed up the game
+            if (speedButtonImage != null && speedButtonSprites != null && speedButtonSprites.Length > 1)
+            {
+                speedButtonImage.sprite = speedButtonSprites[1]; // Switch to 2x image (element 1)
+            }
+        }
+        else
+        {
+            Time.timeScale = 1f; // Slow down the game
+            if (speedButtonImage != null && speedButtonSprites != null && speedButtonSprites.Length > 0)
+            {
+                speedButtonImage.sprite = speedButtonSprites[0]; // Switch to 1x image (element 0)
+            }
+        }
+    }
+
     public void ResumeGame()
     {
         pausePanel.SetActive(false);
