@@ -54,13 +54,13 @@ public class AIWaveHandler : MonoBehaviour
         float averagePerformance = CalculateAveragePerformance();
 
         // Adjust difficulty based on average performance
-        if (averagePerformance >= 1.2f) // Player is performing exceptionally well
+        if (averagePerformance >= 1.5f) // Player is performing exceptionally well
         {
             EnemySpawner.Main.enemiesPerSecond = Mathf.Clamp(EnemySpawner.Main.enemiesPerSecond * 1.5f, 0.5f, 3f); // Aggressively increase spawn rate
             adjustedWave += Mathf.RoundToInt(upcomingWave * 0.5f); // Increase enemies by 50%
             Debug.Log($"Player is performing exceptionally well. Aggressively increasing difficulty: {adjustedWave}");
         }
-        else if (averagePerformance >= 1.0f) // Player is performing well
+        else if (averagePerformance >= 9.0f) // Player is performing well
         {
             EnemySpawner.Main.enemiesPerSecond = Mathf.Clamp(EnemySpawner.Main.enemiesPerSecond * 1.2f, 0.5f, 2.5f); // Increase spawn rate moderately
             adjustedWave += Mathf.RoundToInt(upcomingWave * 0.3f); // Increase enemies by 30%
