@@ -20,14 +20,17 @@ public class EnemySpawner : MonoBehaviour
     public static UnityEvent enemyKilled = new UnityEvent();
     public static EnemySpawner Main;
 
+    // Calculate totalPathPoints dynamically based on the current level
+    public int totalPathPoints => LevelManager.Main != null ? LevelManager.Main.path.Length : 0;
+    
     public int currentWave = 1;
     private float timeSinceLastSpawn = 0f;
     public int enemiesAlive;
     public int enemiesLeftToSpawn;
     public int upcomingWave;
     private bool isSpawning = false;
-    public int enemiesReachedPathPoint = 0;
-    public int enemiesReachedEndpoint = 0; // Track enemies that reached the endpoint
+    public int enemiesReachedPathPoint;
+    public int enemiesReachedEndpoint; // Track enemies that reached the endpoint
 
     private Transform target;
     private int pathIndex = 0;
@@ -38,6 +41,11 @@ public class EnemySpawner : MonoBehaviour
         Main = this;
         enemyKilled.AddListener(OnEnemyKilled);
         AIWaveHandler.Main = FindFirstObjectByType<AIWaveHandler>();
+        if (currentWave < 1)
+        {
+            currentWave = 1; // Ensure currentWave starts at 1
+        }
+        //Debug.Log($"Total Path Points: {totalPathPoints}");
     }
 
 
@@ -51,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
         {
             Debug.LogError("LevelManager.Main.path is empty! Ensure waypoints are assigned.");
         }
-
+        
         StartCoroutine(StartWave());
     }
 
@@ -115,7 +123,15 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator StartWave()
     {
-        enemiesLeftToSpawn = upcomingWave = EnemiesPerWave(); // Get the number of enemies for the upcoming wave
+        if (currentWave == 1)
+        {
+            enemiesLeftToSpawn = baseEnemies; // Use base enemies for the first wave
+        }
+        else
+        {
+            enemiesLeftToSpawn = upcomingWave = EnemiesPerWave(); // Get the number of enemies for the upcoming wave
+        }
+
         enemiesReachedPathPoint = 0; // Reset the halfway counter for the new wave
         enemiesReachedEndpoint = 0;  // Reset the endpoint counter for the new wave
         yield return new WaitForSeconds(timeBetweenWaves);
@@ -139,9 +155,9 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        // Otherwise, start the next wave
+
         upcomingWave = EnemiesPerWave();
-        Debug.Log($"Adjusting Difficulty: Upcoming Wave = {upcomingWave}, Enemies Reached Halfway = {AIWaveHandler.Main.enemiesThatReachedPoint}, Enemies Reached Endpoint = {AIWaveHandler.Main.enemiesThatReachedEndpoint}, Enemies Failed = {AIWaveHandler.Main.enemiesThatFailed}");
+        Debug.Log($"Adjusting Difficulty: Upcoming Wave = {upcomingWave}, Enemies Reached Halfway = {AIWaveHandler.Main.enemiesThatReachedPoint}, Enemies Reached Endpoint = {AIWaveHandler.Main.enemiesThatReachedEndpoint}, Enemies Failed = {AIWaveHandler.Main.enemiesThatFailed}");  
 
         StartCoroutine(StartWave());
     }

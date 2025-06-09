@@ -215,7 +215,7 @@ MonoBehaviour:
   - {fileID: -5901685104126582622, guid: 0ca65db93284081418669ec79fe48835, type: 3}
   - {fileID: 1827206609, guid: 0ca65db93284081418669ec79fe48835, type: 3}
   - {fileID: -270553482, guid: 0ca65db93284081418669ec79fe48835, type: 3}
-  targetingRange: 4
+  targetingRange: 3
   rotationSpeed: 200
   bps: 1.5
   baseUpgradeCost: 100

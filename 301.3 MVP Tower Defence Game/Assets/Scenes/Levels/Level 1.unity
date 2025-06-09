@@ -24506,6 +24506,11 @@ MonoBehaviour:
   - {fileID: 1877372453}
   - {fileID: 95328788}
   - {fileID: 1062819866}
+  speedButton: {fileID: 2051227677}
+  speedButtonImage: {fileID: 493973924}
+  speedButtonSprites:
+  - {fileID: 2976041059057689810, guid: 5896bb354c3b8344489b72623883bae1, type: 3}
+  - {fileID: 6664195757074223314, guid: 0442ca3cdc48fc343af595855eeec41d, type: 3}
 --- !u!4 &1248255121 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8920631792197539041, guid: b0b442140dd0e904b81f9dbb216b5213, type: 3}
@@ -33044,6 +33049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29265dbc5b821a4b8d14147551b698e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gainedStars: 0
 --- !u!1 &1668291068
 GameObject:
   m_ObjectHideFlags: 0
