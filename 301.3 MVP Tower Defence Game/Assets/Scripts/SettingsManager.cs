@@ -4,23 +4,23 @@ using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
-    public GameObject settingsPanel;
+    public GameObject SettingsPanel;
     public Button soundButton;
     private bool isSoundOn = true;
     void Start()
     {
-        settingsPanel.SetActive(false);
+        SettingsPanel.SetActive(false);
         soundButton.onClick.AddListener(ToggleSound);
     }
 
     public void OpenSettings()
     { 
-     settingsPanel.SetActive(true);
+     SettingsPanel.SetActive(true);
     }
 
     public void CloseSettings()
     {
-        settingsPanel.SetActive(false);
+        SettingsPanel.SetActive(false);
     }
 
     public void GoHome()
@@ -33,6 +33,11 @@ public class SettingsManager : MonoBehaviour
      isSoundOn = !isSoundOn;
         AudioListener.volume = isSoundOn ? 1 : 0;
         soundButton.GetComponentInChildren<Text>().text = isSoundOn ? "Sound: ON" : "Sound: OFF";
+    }
+
+    public void ToggleSettings()
+    {
+        SettingsPanel.SetActive(!SettingsPanel.activeSelf);
     }
 
     // Update is called once per frame

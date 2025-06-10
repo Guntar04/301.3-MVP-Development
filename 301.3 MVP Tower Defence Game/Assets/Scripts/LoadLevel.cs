@@ -4,35 +4,35 @@ using UnityEngine.UI;
 
 public class LevelUnlockManager : MonoBehaviour
 {
-    public GameObject levelFlagPrefab;         // Assign your level flag prefab in Inspector
-    public Transform flagParent;               // Assign a UI layout group or empty parent in Inspector
-    public GameObject levelCompleteBanner;     // Assign the level complete UI banner in Inspector
+    public Button[] levelFlagButtons;           // Drag LevelFlags 1-6 here
+    public GameObject levelCompleteBanner;      // Drag LevelCompleteBanner here
     public int totalLevels = 6;
 
     void Start()
     {
-        // Only spawn flags in the LevelSelect scene
-        if (SceneManager.GetActiveScene().name == "Level select screen")
-        {
-            SpawnLevelFlags();
-        }
-
-        // Hide the banner at the start
-        if (levelCompleteBanner != null)
-            levelCompleteBanner.SetActive(false);
-    }
-
-    void SpawnLevelFlags()
-    {
         int unlockedLevels = PlayerPrefs.GetInt("UnlockedLevels", 1);
 
-        for (int i = 1; i <= unlockedLevels && i <= totalLevels; i++)
+        // Enable buttons only for unlocked levels
+        for (int i = 0; i < levelFlagButtons.Length; i++)
         {
-            GameObject flag = Instantiate(levelFlagPrefab, flagParent);
-            flag.GetComponentInChildren<Text>().text = "Level " + i;
-            int levelToLoad = i; // local copy for lambda
-            flag.GetComponent<Button>().onClick.AddListener(() => LoadLevel(levelToLoad));
+            int levelIndex = i + 1;
+            Button button = levelFlagButtons[i];
+
+            if (levelIndex <= unlockedLevels)
+            {
+                button.interactable = true;
+                int copy = levelIndex; // Needed for lambda capture
+                button.onClick.AddListener(() => LoadLevel(copy));
+            }
+            else
+            {
+                button.interactable = false;
+            }
         }
+
+        // Hide banner initially
+        if (levelCompleteBanner != null)
+            levelCompleteBanner.SetActive(false);
     }
 
     public void LoadLevel(int levelNumber)
@@ -52,11 +52,11 @@ public class LevelUnlockManager : MonoBehaviour
     public static void UnlockNextLevel()
     {
         int unlockedLevels = PlayerPrefs.GetInt("UnlockedLevels", 1);
+        int totalLevels = SceneManager.sceneCountInBuildSettings;
 
-        if (unlockedLevels < SceneManager.sceneCountInBuildSettings)
+        if (unlockedLevels < totalLevels)
         {
-            unlockedLevels++;
-            PlayerPrefs.SetInt("UnlockedLevels", unlockedLevels);
+            PlayerPrefs.SetInt("UnlockedLevels", unlockedLevels + 1);
             PlayerPrefs.Save();
         }
     }

@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Credits scene.unity
     guid: 6d98dd7eecf5ae544bfeb696bf8963a9
+  - enabled: 1
+    path: Assets/Scenes/save menu scene.unity
+    guid: 07c460c76ddf2214e9f643d469e57351
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
   m_UseUCBPForAssetBundles: 0
