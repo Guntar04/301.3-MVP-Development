@@ -157,7 +157,7 @@ public class EnemySpawner : MonoBehaviour
 
 
         upcomingWave = EnemiesPerWave();
-        Debug.Log($"Adjusting Difficulty: Upcoming Wave = {upcomingWave}, Enemies Reached Halfway = {AIWaveHandler.Main.enemiesThatReachedPoint}, Enemies Reached Endpoint = {AIWaveHandler.Main.enemiesThatReachedEndpoint}, Enemies Failed = {AIWaveHandler.Main.enemiesThatFailed}");  
+        //Debug.Log($"Adjusting Difficulty: Upcoming Wave = {upcomingWave}, Enemies Reached Halfway = {AIWaveHandler.Main.enemiesThatReachedPoint}, Enemies Reached Endpoint = {AIWaveHandler.Main.enemiesThatReachedEndpoint}, Enemies Failed = {AIWaveHandler.Main.enemiesThatFailed}");  
 
         StartCoroutine(StartWave());
     }

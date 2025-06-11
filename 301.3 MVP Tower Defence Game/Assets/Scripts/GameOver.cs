@@ -16,6 +16,7 @@ public class GameOver : MonoBehaviour
     [SerializeField] private Image speedButtonImage; // Assign the default speed button sprite in the Inspector
     [SerializeField] private Sprite[] speedButtonSprites; // Assign the speed button sprites in the Inspector
 
+    private float currentSpeed = 1f; // Variable to store the time scale before pausing
     public static GameOver Main;
 
     private void Awake()
@@ -46,12 +47,16 @@ public class GameOver : MonoBehaviour
     public void ShowGameOver()
     {
         losePanel.SetActive(true);
+        speedButton.gameObject.SetActive(false); // Hide the speed button
+        pauseButton.gameObject.SetActive(false); // Hide the pause button
         Time.timeScale = 0f; // Pause the game
     }
 
     public void PauseGame()
     {
         pausePanel.SetActive(true);
+        speedButton.gameObject.SetActive(false); // Hide the speed button
+        currentSpeed = Time.timeScale; // Store the current speed
         Time.timeScale = 0f; // Pause the game
     }
 
@@ -78,7 +83,8 @@ public class GameOver : MonoBehaviour
     public void ResumeGame()
     {
         pausePanel.SetActive(false);
-        Time.timeScale = 1f; // Resume the game
+        speedButton.gameObject.SetActive(true); // Show the speed button again
+        Time.timeScale = currentSpeed; // Resume the game
     }
     public void QuitGame()
     {
@@ -89,6 +95,8 @@ public class GameOver : MonoBehaviour
     public void WinGame()
     {
         winPanel.SetActive(true);
+        speedButton.gameObject.SetActive(false); // Hide the speed button
+        pauseButton.gameObject.SetActive(false); // Hide the pause button
         Time.timeScale = 0f; // Pause the game
 
         int stars = StarSystem.Main.CalculateStars(LevelManager.Main.health);

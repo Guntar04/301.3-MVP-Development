@@ -213,7 +213,7 @@ public class Turret : MonoBehaviour {
 
     private float CalculateBPS()
     {
-        return Mathf.Round(bpsBase * Mathf.Pow(level, 0.5f));
+        return Mathf.Round(bpsBase * Mathf.Pow(level, 0.06f));
     }  
 
     private void OnDrawGizmosSelected()

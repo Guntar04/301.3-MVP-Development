@@ -215,10 +215,10 @@ MonoBehaviour:
   - {fileID: 149164983, guid: 7336b87a3be40bc4890f295a47f36994, type: 3}
   - {fileID: 1495758234, guid: 7336b87a3be40bc4890f295a47f36994, type: 3}
   - {fileID: -858007716, guid: 7336b87a3be40bc4890f295a47f36994, type: 3}
-  targetingRange: 6
+  targetingRange: 5
   rotationSpeed: 170
-  bps: 0.6
-  baseUpgradeCost: 100
+  bps: 0.5
+  baseUpgradeCost: 130
 --- !u!1 &6629836823207535150
 GameObject:
   m_ObjectHideFlags: 0

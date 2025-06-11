@@ -217,7 +217,7 @@ MonoBehaviour:
   - {fileID: -270553482, guid: 0ca65db93284081418669ec79fe48835, type: 3}
   targetingRange: 3
   rotationSpeed: 200
-  bps: 1.5
+  bps: 1.3
   baseUpgradeCost: 100
 --- !u!1 &6629836823207535150
 GameObject:
