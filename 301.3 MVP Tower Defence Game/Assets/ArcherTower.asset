@@ -15,4 +15,4 @@ MonoBehaviour:
   towerName: tower 1
   strength: archer tower fires archers at a cost of 80 coins and can be upgraded
     to a max level 3
-  weakness: 
+  weakness: when start this one can be very week to strong enemies.

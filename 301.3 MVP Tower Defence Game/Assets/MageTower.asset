@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: MageTower
   m_EditorClassIdentifier: 
   towerName: MageTower
-  strength: 
+  strength: 'mage towers are '
   weakness: 
