@@ -177,5 +177,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7478067869701884627}
   bulletSpeed: 5
-  physicalDamage: 7
+  physicalDamage: 8
   magicDamage: 0

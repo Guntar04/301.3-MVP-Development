@@ -29,8 +29,11 @@ public class EnemySpawner : MonoBehaviour
     public int enemiesLeftToSpawn;
     public int upcomingWave;
     private bool isSpawning = false;
+    private bool isWaveInProgress = false;
+
     public int enemiesReachedPathPoint;
     public int enemiesReachedEndpoint; // Track enemies that reached the endpoint
+    public int enemiesReachedThirdPoint; // Track enemies that reached the third path point
 
     private Transform target;
     private int pathIndex = 0;
@@ -123,6 +126,14 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator StartWave()
     {
+        if (isWaveInProgress)
+        {
+            Debug.LogWarning("StartWave called while a wave is already in progress!");
+            yield break;
+        }
+
+        isWaveInProgress = true;
+
         if (currentWave == 1)
         {
             enemiesLeftToSpawn = baseEnemies; // Use base enemies for the first wave
@@ -134,10 +145,11 @@ public class EnemySpawner : MonoBehaviour
 
         enemiesReachedPathPoint = 0; // Reset the halfway counter for the new wave
         enemiesReachedEndpoint = 0;  // Reset the endpoint counter for the new wave
+        enemiesReachedThirdPoint = 0; // Reset the third path point counter for the new wave
         yield return new WaitForSeconds(timeBetweenWaves);
 
         isSpawning = true;
-        //Debug.Log($"Starting Wave {currentWave}: Enemies to Spawn = {enemiesLeftToSpawn}");
+        Debug.Log($"Starting Wave {currentWave}: Enemies to Spawn = {enemiesLeftToSpawn}");
     }
 
     private void EndWave()
@@ -146,6 +158,8 @@ public class EnemySpawner : MonoBehaviour
         timeSinceLastSpawn = 0f;
 
         currentWave++; // Increment the wave counter
+
+        isWaveInProgress = false; // Reset the flag
 
         // Check if the last wave is completed
         if (currentWave > 10)
@@ -157,7 +171,7 @@ public class EnemySpawner : MonoBehaviour
 
 
         upcomingWave = EnemiesPerWave();
-        //Debug.Log($"Adjusting Difficulty: Upcoming Wave = {upcomingWave}, Enemies Reached Halfway = {AIWaveHandler.Main.enemiesThatReachedPoint}, Enemies Reached Endpoint = {AIWaveHandler.Main.enemiesThatReachedEndpoint}, Enemies Failed = {AIWaveHandler.Main.enemiesThatFailed}");  
+        Debug.Log($"Adjusting Difficulty: Upcoming Wave = {upcomingWave}, Enemies Reached Halfway = {AIWaveHandler.Main.enemiesThatReachedPoint}, Enemies Reached Endpoint = {AIWaveHandler.Main.enemiesThatReachedEndpoint}, Enemies Failed = {AIWaveHandler.Main.enemiesThatFailed}");
 
         StartCoroutine(StartWave());
     }
@@ -213,4 +227,21 @@ public class EnemySpawner : MonoBehaviour
         return upcomingWave;
     }
     
+    void UpdateEnemyProgress(EnemyMovement enemy)
+    {
+        if (enemy.pathIndex == 3) // Check if the enemy reached the third path point
+        {
+            enemiesReachedThirdPoint++;
+        }
+        else if (enemy.pathIndex == totalPathPoints)
+        {
+            enemiesReachedEndpoint++;
+        }
+        else if (enemy.pathIndex == halfwayPointIndex)
+        {
+            enemiesReachedPathPoint++;
+        }
+    }
+
+    private int halfwayPointIndex => Mathf.FloorToInt(totalPathPoints / 2); // Calculate halfway point index
 }

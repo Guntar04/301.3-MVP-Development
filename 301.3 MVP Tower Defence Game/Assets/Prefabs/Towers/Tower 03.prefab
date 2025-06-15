@@ -489,7 +489,7 @@ MonoBehaviour:
   - {fileID: -2493458000671406861, guid: e5e461fbb6675514aa0e16af7cea0707, type: 3}
   - {fileID: 7694413504567393113, guid: e5e461fbb6675514aa0e16af7cea0707, type: 3}
   - {fileID: 7136563893629352388, guid: e5e461fbb6675514aa0e16af7cea0707, type: 3}
-  targetingRange: 2.5
+  targetingRange: 3
   rotationSpeed: 170
   bps: 1
   baseUpgradeCost: 120

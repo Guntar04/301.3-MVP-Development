@@ -56,6 +56,7 @@ public class GameOver : MonoBehaviour
     {
         pausePanel.SetActive(true);
         speedButton.gameObject.SetActive(false); // Hide the speed button
+        pauseButton.gameObject.SetActive(false); // Hide the pause button
         currentSpeed = Time.timeScale; // Store the current speed
         Time.timeScale = 0f; // Pause the game
     }
@@ -84,6 +85,7 @@ public class GameOver : MonoBehaviour
     {
         pausePanel.SetActive(false);
         speedButton.gameObject.SetActive(true); // Show the speed button again
+        pauseButton.gameObject.SetActive(true); // Show the pause button again
         Time.timeScale = currentSpeed; // Resume the game
     }
     public void QuitGame()

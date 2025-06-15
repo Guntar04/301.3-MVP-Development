@@ -26,7 +26,6 @@ public class AIWaveHandler : MonoBehaviour
         if (isFirstWave)
         {
             isFirstWave = false; // Mark the first wave as completed
-            //Debug.Log("First wave started. Skipping AI difficulty adjustment.");
             return upcomingWave; // Return the original wave without adjustments
         }
 
@@ -38,7 +37,6 @@ public class AIWaveHandler : MonoBehaviour
 
         // Ensure enemiesThatFailed is calculated correctly
         enemiesThatFailed = upcomingWave - enemiesThatReachedPoint - enemiesThatReachedEndpoint;
-        //Debug.Log($"halfway: {enemiesThatReachedPoint}, endpoint: {enemiesThatReachedEndpoint}, failed: {enemiesThatFailed}");
 
         // Update player performance score
         playerPerformanceScore = UpdatePerformanceScore(upcomingWave);
@@ -57,20 +55,20 @@ public class AIWaveHandler : MonoBehaviour
         if (playerPerformanceScore >= 1.2f) // Player is performing exceptionally well
         {
             EnemySpawner.Main.enemiesPerSecond = Mathf.Clamp(EnemySpawner.Main.enemiesPerSecond * 2f, 0.5f, 5f); // Aggressively increase spawn rate to be very fast
-            adjustedWave += Mathf.RoundToInt(upcomingWave * 0.5f); // Increase enemies by 50%
+            adjustedWave += Mathf.RoundToInt(upcomingWave * 0.3f); // Increase enemies by 50%
             Debug.Log($"Player is performing exceptionally well. Aggressively increasing difficulty: {adjustedWave}");
         }
-        else if (playerPerformanceScore >= 9.0f && playerPerformanceScore < 1.2) // Player is performing well
+        else if (playerPerformanceScore >= 0.9f && playerPerformanceScore < 1.2f) // Player is performing well
         {
             EnemySpawner.Main.enemiesPerSecond = Mathf.Clamp(EnemySpawner.Main.enemiesPerSecond * 1.2f, 0.5f, 2.5f); // Increase spawn rate moderately
-            adjustedWave += Mathf.RoundToInt(upcomingWave * 0.3f); // Increase enemies by 30%
+            adjustedWave += Mathf.RoundToInt(upcomingWave * 0.2f); // Increase enemies by 30%
             Debug.Log($"Player is performing well. Increasing difficulty moderately: {adjustedWave}");
         }
-        else //if (playerPerformanceScore < 0.9f) // Player is struggling
+        else if (playerPerformanceScore < 0.9f) // Player is struggling
         {
-            EnemySpawner.Main.enemiesPerSecond = Mathf.Clamp(EnemySpawner.Main.enemiesPerSecond * 0.8f, 0.2f, 1f); // Increase spawn rate slightly
-            adjustedWave -= Mathf.RoundToInt(upcomingWave * 0.1f); // Increase enemies by 10%
-            Debug.Log($"Player is struggling. Slightly increasing difficulty: {adjustedWave}");
+            EnemySpawner.Main.enemiesPerSecond = Mathf.Clamp(EnemySpawner.Main.enemiesPerSecond * 0.8f, 0.2f, 1f); // Decrease spawn rate slightly
+            adjustedWave -= Mathf.RoundToInt(upcomingWave * 0.1f); // Decrease enemies by 10%
+            Debug.Log($"Player is struggling. Slightly decreasing difficulty: {adjustedWave}");
         }
 
         // Ensure at least one enemy is spawned
@@ -82,11 +80,18 @@ public class AIWaveHandler : MonoBehaviour
         // Get the total number of path points in the current level
         int totalPathPoints = EnemySpawner.Main.totalPathPoints;
 
-        // Calculate the number of enemies killed before reaching any path point
-        int enemiesKilledBeforePathPoints = upcomingWave - enemiesThatReachedPoint - enemiesThatReachedEndpoint;
+        // Ensure there are enough path points to calculate early kills based on the third point
+        if (totalPathPoints < 3)
+        {
+            Debug.LogWarning("Not enough path points to calculate early kills based on the third point.");
+            return 1f; // Default to balanced performance
+        }
+
+        // Calculate the number of enemies killed before reaching the third path point
+        int enemiesKilledBeforeThirdPoint = upcomingWave - EnemySpawner.Main.enemiesReachedThirdPoint - enemiesThatReachedEndpoint;
 
         // Calculate ratios for each path point
-        float earlyKillRatio = (float)enemiesKilledBeforePathPoints / upcomingWave; // Higher = better performance
+        float earlyKillRatio = (float)enemiesKilledBeforeThirdPoint / upcomingWave; // Higher = better performance
         float halfwayRatio = (float)enemiesThatReachedPoint / upcomingWave; // Moderate = balanced performance
         float endpointPenalty = (float)enemiesThatReachedEndpoint / upcomingWave; // Higher = worse performance
 
@@ -95,7 +100,7 @@ public class AIWaveHandler : MonoBehaviour
 
         // Combine metrics to calculate performance score
         // Adjusted weights to make the scoring system more balanced
-        float newScore = (earlyKillRatio * 3f) - (halfwayRatio * 4f) - (endpointPenalty * 6f) - (pathPointPenalty * 5f);
+        float newScore = (earlyKillRatio * 5f) - (halfwayRatio * 3f) - (endpointPenalty * 6f) - (pathPointPenalty * 4f);
 
         Debug.Log($"Early Kill Ratio: {earlyKillRatio}, Halfway Ratio: {halfwayRatio}, Endpoint Penalty: {endpointPenalty}, Path Point Penalty: {pathPointPenalty}");
 
