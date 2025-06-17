@@ -19,6 +19,12 @@ public class Bullet : MonoBehaviour
     {
         target = _target;
     }
+
+    public void SetDamage(float physical, float magic)
+    {
+        physicalDamage = physical;
+        magicDamage = magic;
+    }
     
     private void FixedUpdate()
     {

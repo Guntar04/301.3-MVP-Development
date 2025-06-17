@@ -1,127 +1,157 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// AIWaveHandler uses AI learning to adapt wave difficulty based on how far enemies get.
+/// </summary>
 public class AIWaveHandler : MonoBehaviour
 {
-    public int enemiesThatReachedPoint;
-    public int enemiesThatReachedEndpoint;
-    public int adjustedWave;
-    public int enemiesThatFailed;
     public static AIWaveHandler Main;
 
-    private List<float> performanceHistory = new List<float>(); // Track player performance over waves
-    private float playerPerformanceScore = 1f; // Current performance score
-    private float learningRate = 0.1f; // How quickly the AI adapts
-    private int maxHistorySize = 10; // Maximum number of waves to track
-    private bool isFirstWave = true; // Flag to track if it's the first wave
+    private List<float> enemyProgresses = new List<float>();
+    private List<float> performanceHistory = new List<float>();
+    private float aiDifficulty = 1f;
+    private float learningRate = 0.5f;
+    private float maxDifficulty = 1.3f;
+    private float minDifficulty = 0.7f;
+    private int maxHistory = 8;
+
+    private Dictionary<int, List<float>> enemyTypeProgresses = new Dictionary<int, List<float>>();
 
     private void Awake()
     {
         Main = this;
     }
 
-    public int AdjustWaveDifficulty(int upcomingWave)
+    /// <summary>
+    /// Called by EnemyMovement when an enemy dies or reaches the end.
+    /// </summary>
+    public void ReportEnemyProgress(int pathIndex)
     {
-        // Skip difficulty adjustment for the first wave
-        if (isFirstWave)
-        {
-            isFirstWave = false; // Mark the first wave as completed
-            return upcomingWave; // Return the original wave without adjustments
-        }
-
-        int adjustedWave = upcomingWave;
-
-        // Check enemy progress
-        enemiesThatReachedPoint = EnemySpawner.Main.enemiesReachedPathPoint; // Track enemies that reached halfway
-        enemiesThatReachedEndpoint = EnemySpawner.Main.enemiesReachedEndpoint; // Track enemies that reached the endpoint
-
-        // Ensure enemiesThatFailed is calculated correctly
-        enemiesThatFailed = upcomingWave - enemiesThatReachedPoint - enemiesThatReachedEndpoint;
-
-        // Update player performance score
-        playerPerformanceScore = UpdatePerformanceScore(upcomingWave);
-
-        // Add the performance score to history
-        performanceHistory.Add(playerPerformanceScore);
-        if (performanceHistory.Count > maxHistorySize)
-        {
-            performanceHistory.RemoveAt(0); // Keep history size within limit
-        }
-
-        // Calculate average performance over history
-        float averagePerformance = CalculateAveragePerformance();
-
-        // Adjust difficulty based on average performance
-        if (playerPerformanceScore >= 1.2f) // Player is performing exceptionally well
-        {
-            EnemySpawner.Main.enemiesPerSecond = Mathf.Clamp(EnemySpawner.Main.enemiesPerSecond * 2f, 0.5f, 5f); // Aggressively increase spawn rate to be very fast
-            adjustedWave += Mathf.RoundToInt(upcomingWave * 0.3f); // Increase enemies by 50%
-            Debug.Log($"Player is performing exceptionally well. Aggressively increasing difficulty: {adjustedWave}");
-        }
-        else if (playerPerformanceScore >= 0.9f && playerPerformanceScore < 1.2f) // Player is performing well
-        {
-            EnemySpawner.Main.enemiesPerSecond = Mathf.Clamp(EnemySpawner.Main.enemiesPerSecond * 1.2f, 0.5f, 2.5f); // Increase spawn rate moderately
-            adjustedWave += Mathf.RoundToInt(upcomingWave * 0.2f); // Increase enemies by 30%
-            Debug.Log($"Player is performing well. Increasing difficulty moderately: {adjustedWave}");
-        }
-        else if (playerPerformanceScore < 0.9f) // Player is struggling
-        {
-            EnemySpawner.Main.enemiesPerSecond = Mathf.Clamp(EnemySpawner.Main.enemiesPerSecond * 0.8f, 0.2f, 1f); // Decrease spawn rate slightly
-            adjustedWave -= Mathf.RoundToInt(upcomingWave * 0.1f); // Decrease enemies by 10%
-            Debug.Log($"Player is struggling. Slightly decreasing difficulty: {adjustedWave}");
-        }
-
-        // Ensure at least one enemy is spawned
-        return Mathf.Max(1, adjustedWave);
+        // Normalize progress as a fraction of the path length
+        float progress = (float)pathIndex / (LevelManager.Main.path.Length - 1);
+        enemyProgresses.Add(progress);
     }
 
-    private float UpdatePerformanceScore(int upcomingWave)
+    public void ReportEnemyProgress(int pathIndex, int enemyType)
     {
-        // Get the total number of path points in the current level
-        int totalPathPoints = EnemySpawner.Main.totalPathPoints;
-
-        // Ensure there are enough path points to calculate early kills based on the third point
-        if (totalPathPoints < 3)
-        {
-            Debug.LogWarning("Not enough path points to calculate early kills based on the third point.");
-            return 1f; // Default to balanced performance
-        }
-
-        // Calculate the number of enemies killed before reaching the third path point
-        int enemiesKilledBeforeThirdPoint = upcomingWave - EnemySpawner.Main.enemiesReachedThirdPoint - enemiesThatReachedEndpoint;
-
-        // Calculate ratios for each path point
-        float earlyKillRatio = (float)enemiesKilledBeforeThirdPoint / upcomingWave; // Higher = better performance
-        float halfwayRatio = (float)enemiesThatReachedPoint / upcomingWave; // Moderate = balanced performance
-        float endpointPenalty = (float)enemiesThatReachedEndpoint / upcomingWave; // Higher = worse performance
-
-        // Adjust weights dynamically based on the number of path points
-        float pathPointPenalty = (float)(enemiesThatReachedPoint + enemiesThatReachedEndpoint) / (upcomingWave * totalPathPoints);
-
-        // Combine metrics to calculate performance score
-        // Adjusted weights to make the scoring system more balanced
-        float newScore = (earlyKillRatio * 5f) - (halfwayRatio * 3f) - (endpointPenalty * 6f) - (pathPointPenalty * 4f);
-
-        Debug.Log($"Early Kill Ratio: {earlyKillRatio}, Halfway Ratio: {halfwayRatio}, Endpoint Penalty: {endpointPenalty}, Path Point Penalty: {pathPointPenalty}");
-
-        // Ensure the score is clamped between a reasonable range
-        newScore = Mathf.Clamp(newScore, 0.1f, 2.0f);
-
-        // Smoothly update the performance score using a learning rate
-        playerPerformanceScore = Mathf.Lerp(playerPerformanceScore, newScore, learningRate);
-
-        Debug.Log($"Updated Player Performance Score: {playerPerformanceScore}");
-        return playerPerformanceScore;
+        float progress = (float)pathIndex / (LevelManager.Main.path.Length - 1);
+        if (!enemyTypeProgresses.ContainsKey(enemyType))
+            enemyTypeProgresses[enemyType] = new List<float>();
+        enemyTypeProgresses[enemyType].Add(progress);
     }
 
-    private float CalculateAveragePerformance()
+    /// <summary>
+    /// Call this at the end of each wave to update AI and get the next wave's enemy count.
+    /// </summary>
+    public int AdjustWaveDifficulty(int baseEnemies)
     {
-        if (performanceHistory.Count == 0) return 1f; // Default to balanced performance if no history
-        float total = 0f;
-        foreach (float score in performanceHistory)
+        // Calculate average progress for this wave
+        float avgProgress = 0f;
+        if (enemyProgresses.Count > 0)
         {
-            total += score;
+            foreach (var p in enemyProgresses) avgProgress += p;
+            avgProgress /= enemyProgresses.Count;
         }
-        return total / performanceHistory.Count;
+
+        // Higher avgProgress means enemies get further (player struggling)
+        // Lower avgProgress means player is stopping enemies early (player strong)
+        float score = 1f - avgProgress; // 1 = stopped early, 0 = all reached end
+
+        // AI "learns" by blending new score with history
+        if (performanceHistory.Count == 0)
+            aiDifficulty = 1f;
+        else
+            aiDifficulty = Mathf.Lerp(aiDifficulty, 1f + (score - 0.5f), learningRate);
+
+        // Store history for smoothing
+        performanceHistory.Add(score);
+        if (performanceHistory.Count > maxHistory)
+            performanceHistory.RemoveAt(0);
+
+        float avgScore = 0f;
+        foreach (var s in performanceHistory) avgScore += s;
+        avgScore /= performanceHistory.Count;
+
+        // Adjust difficulty
+        if (avgScore > 0.7f)
+            aiDifficulty = Mathf.Min(aiDifficulty + 0.05f, maxDifficulty);
+        else if (avgScore < 0.4f)
+            aiDifficulty = Mathf.Max(aiDifficulty - 0.05f, minDifficulty);
+
+        // Calculate new enemy count and spawn rate
+        int adjustedEnemies = Mathf.RoundToInt(baseEnemies * aiDifficulty);
+        EnemySpawner.Main.enemiesPerSecond = Mathf.Clamp(0.3f * aiDifficulty, 0.15f, 2f);
+
+        // Ensure at least 1 enemy
+        adjustedEnemies = Mathf.Max(1, adjustedEnemies);
+
+        Debug.Log($"[AIWaveHandler] AvgProgress: {avgProgress:F2}, Player avgScore: {avgScore:F2}, AI Difficulty: {aiDifficulty:F2}, Next Enemies: {adjustedEnemies}, SpawnRate: {EnemySpawner.Main.enemiesPerSecond:F2}");
+
+        // Reset for next wave
+        enemyProgresses.Clear();
+        enemyTypeProgresses.Clear();
+
+        return adjustedEnemies;
+    }
+
+    private Dictionary<int, float> GetAverageProgressPerType()
+    {
+        var averages = new Dictionary<int, float>();
+        foreach (var kvp in enemyTypeProgresses)
+        {
+            float avg = 0f;
+            foreach (var p in kvp.Value) avg += p;
+            avg /= Mathf.Max(1, kvp.Value.Count);
+            averages[kvp.Key] = avg;
+        }
+        return averages;
+    }
+
+    public int[] DecideEnemyComposition(int baseEnemies, int wave, int enemyTypeCount)
+    {
+        var avgProgress = GetAverageProgressPerType();
+        int[] result = new int[enemyTypeCount];
+
+        // Determine which types are unlocked this wave (follow your EnemySpawner logic)
+        int maxType = 0;
+        if (wave >= 7) maxType = Mathf.Min(3, enemyTypeCount - 1);
+        else if (wave >= 5) maxType = Mathf.Min(2, enemyTypeCount - 1);
+        else if (wave >= 3) maxType = Mathf.Min(1, enemyTypeCount - 1);
+
+        // Default ratios (can be tuned)
+        float[] baseRatios = new float[enemyTypeCount];
+        for (int i = 0; i <= maxType; i++) baseRatios[i] = 1f;
+        float totalRatio = maxType + 1;
+
+        // Adjust ratios based on performance
+        for (int i = 0; i <= maxType; i++)
+        {
+            float perf = 1f - (avgProgress.ContainsKey(i) ? avgProgress[i] : 0.5f); // 1=player strong, 0=player weak
+            // If player is struggling, reduce ratio for this type (especially for tanky types)
+            if (perf < 0.4f)
+                baseRatios[i] *= 0.6f;
+            else if (perf > 0.7f)
+                baseRatios[i] *= 1.2f;
+
+            // For tanky types (e.g., Enemy 02, 06, 07), never let their ratio exceed 0.3
+            if (i == 1 || i == 5 || i == 6)
+                baseRatios[i] = Mathf.Min(baseRatios[i], 0.3f);
+        }
+
+        // Normalize ratios
+        float sum = 0f;
+        for (int i = 0; i <= maxType; i++) sum += baseRatios[i];
+        for (int i = 0; i <= maxType; i++) baseRatios[i] /= sum;
+
+        // Assign counts
+        for (int i = 0; i <= maxType; i++)
+            result[i] = Mathf.RoundToInt(baseEnemies * baseRatios[i]);
+
+        // Ensure at least 1 of each unlocked type
+        for (int i = 0; i <= maxType; i++)
+            result[i] = Mathf.Max(result[i], 1);
+
+        return result;
     }
 }

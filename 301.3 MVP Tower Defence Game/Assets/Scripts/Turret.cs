@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
-using System;
 using TMPro;
 
 public class Turret : MonoBehaviour {
@@ -19,23 +17,27 @@ public class Turret : MonoBehaviour {
     [SerializeField] private Sprite[] upgradeSprites; // 0: base, 1: level 2, 2: level 3
 
     [Header("Attributes")]
-    [SerializeField] private float targetingRange = 3f;
+    [SerializeField] public float targetingRange = 4f;
     [SerializeField] private float rotationSpeed = 200f;
-    [SerializeField] private float bps = 1f; // Bullets per second
+    [SerializeField] public float bps = 1.5f; // Bullets per second
     [SerializeField] private int baseUpgradeCost = 100;
 
-    private float bpsBase;
-    private float targetingRangeBase;
-    private Transform target;
-    private float timeUntilFire;
+    // Damage values (set per tower type in Inspector)
+    [SerializeField] private float basePhysicalDamage = 6f;
+    [SerializeField] private float baseMagicDamage = 0f;
 
+    // Upgrade increments (set per tower type in Inspector)
+    [SerializeField] private float physicalDamageUpgrade = 3f;
+    [SerializeField] private float magicDamageUpgrade = 0f;
+    [SerializeField] private float rangeUpgrade = 0.5f;
+    [SerializeField] private float bpsUpgrade = 0.2f;
+
+    private float fireCooldown = 0f;
     private int level = 1;
+    private Transform target;
 
     private void Start()
     {
-        bpsBase = bps;
-        targetingRangeBase = targetingRange;
-
         upgradeButton.onClick.AddListener(Upgrade);
         sellButton.onClick.AddListener(Sell);
 
@@ -44,61 +46,51 @@ public class Turret : MonoBehaviour {
 
     private void Update()
     {
-        if (target == null)
-        {
-            FindTarget();
-            return;
-        }
+        FindTarget();
 
-        RotateTowardsTarget();
-
-        if (!CheckTargetIsInRange())
+        if (target != null)
         {
-            target = null;
-        }
-        else
-        {
-            timeUntilFire += Time.deltaTime;
+            RotateTowardsTarget();
 
-            if (timeUntilFire >= (1f / bps))
+            if (fireCooldown <= 0f)
             {
                 Shoot();
-                timeUntilFire = 0f;
+                fireCooldown = 1f / bps;
             }
         }
+
+        if (fireCooldown > 0f)
+            fireCooldown -= Time.deltaTime;
 
         UpdateUpgradeCostText();
     }
 
     private void Shoot() {
-        
         GameObject bulletObj = Instantiate(bulletPrefab[0], firingPoint.position, Quaternion.identity);
         Bullet bulletScript = bulletObj.GetComponent<Bullet>();
         bulletScript.SetTarget(target);
+
+        // Set bullet damage based on current tower stats
+        bulletScript.SetDamage(basePhysicalDamage, baseMagicDamage);
     }
 
     private void FindTarget()
     {
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, Vector2.zero, 0f, enemyMask);
-
-        Transform frontEnemy = null;
-        float maxProgress = float.MinValue;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, targetingRange, enemyMask);
+        EnemyMovement frontEnemy = null;
+        int furthestPathIndex = -1;
 
         foreach (var hit in hits)
         {
-            EnemyMovement enemy = hit.transform.GetComponent<EnemyMovement>();
-            if (enemy != null)
+            EnemyMovement enemy = hit.GetComponent<EnemyMovement>();
+            if (enemy != null && enemy.pathIndex > furthestPathIndex)
             {
-                // Use pathIndex to determine progress along the path
-                if (enemy.GetPathProgress() > maxProgress)
-                {
-                    maxProgress = enemy.GetPathProgress();
-                    frontEnemy = enemy.transform;
-                }
+                furthestPathIndex = enemy.pathIndex;
+                frontEnemy = enemy;
             }
         }
 
-        target = frontEnemy;
+        target = frontEnemy != null ? frontEnemy.transform : null;
     }
 
     private bool CheckTargetIsInRange() {
@@ -106,10 +98,13 @@ public class Turret : MonoBehaviour {
     }
 
     private void RotateTowardsTarget() {
-        float angle = Mathf.Atan2(target.position.y - transform.position.y, target.position.x - transform.position.x) * Mathf.Rad2Deg + -90f;
-
-        Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-        turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        Vector2 direction = (target.position - turretRotationPoint.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        turretRotationPoint.rotation = Quaternion.RotateTowards(
+            turretRotationPoint.rotation,
+            Quaternion.Euler(0, 0, angle - 90),
+            rotationSpeed * Time.deltaTime
+        );
     }
     
     public void OpenUpgradeUI() {
@@ -158,7 +153,6 @@ public class Turret : MonoBehaviour {
     {
         if (level >= 3)
         {
-            //Debug.Log("Max level reached!");
             if (upgradeButton != null) upgradeButton.interactable = false;
             return;
         }
@@ -172,8 +166,11 @@ public class Turret : MonoBehaviour {
         LevelManager.Main.SpendCurrency(CalculateCost());
         level++;
 
-        bps = CalculateBPS();
-        targetingRange = CalculateRange();
+        // Upgrade stats
+        targetingRange += rangeUpgrade;
+        bps += bpsUpgrade;
+        basePhysicalDamage += physicalDamageUpgrade;
+        baseMagicDamage += magicDamageUpgrade;
 
         // Change the base sprite if an upgraded sprite exists
         if (baseSpriteRenderer != null && upgradeSprites != null && level - 1 < upgradeSprites.Length)
@@ -203,25 +200,14 @@ public class Turret : MonoBehaviour {
 
     private int CalculateCost()
     {
-        return Mathf.RoundToInt(baseUpgradeCost * Mathf.Pow(level, 0.5f));
-    }
-    
-    private float CalculateRange()
-    {
-        return Mathf.Round(targetingRangeBase * Mathf.Pow(level, 0.1f));
-    }
-
-    private float CalculateBPS()
-    {
-        return Mathf.Round(bpsBase * Mathf.Pow(level, 0.06f));
-    }  
+        return Mathf.RoundToInt(baseUpgradeCost * Mathf.Pow(level, 0.7f));
+    } 
 
     private void OnDrawGizmosSelected()
     {
 
-        Handles.color = Color.cyan;
-        Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
-
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, targetingRange);
     }
 
     private void UpdateUpgradeCostText()
@@ -235,7 +221,7 @@ public class Turret : MonoBehaviour {
             }
             else
             {
-                upgradeCostText.text = $"Cost: {CalculateCost()}";
+                upgradeCostText.text = $"${CalculateCost()}";
             }
     }
 }

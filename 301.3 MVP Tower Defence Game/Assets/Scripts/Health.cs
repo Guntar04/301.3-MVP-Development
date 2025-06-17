@@ -39,7 +39,13 @@ public class Health : MonoBehaviour
             EnemySpawner.enemyKilled.Invoke();
             LevelManager.Main.IncreaseCurrency(currencyWorth);
             isKilled = true;
-            Destroy(gameObject);
+
+            // Let EnemyMovement handle death and progress reporting
+            EnemyMovement movement = GetComponent<EnemyMovement>();
+            if (movement != null)
+                movement.Die();
+            else
+                Destroy(gameObject);
         }
     }
     

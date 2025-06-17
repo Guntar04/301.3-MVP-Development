@@ -168,4 +168,4 @@ MonoBehaviour:
   rb: {fileID: 7478067869701884627}
   bulletSpeed: 5
   physicalDamage: 0
-  magicDamage: 18
+  magicDamage: 9

@@ -5,10 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
-
     [Header("References")]
     [SerializeField] private GameObject[] enemyPrefabs;
-
 
     [Header("Attributes")]
     [SerializeField] private int baseEnemies = 20;
@@ -20,9 +18,6 @@ public class EnemySpawner : MonoBehaviour
     public static UnityEvent enemyKilled = new UnityEvent();
     public static EnemySpawner Main;
 
-    // Calculate totalPathPoints dynamically based on the current level
-    public int totalPathPoints => LevelManager.Main != null ? LevelManager.Main.path.Length : 0;
-    
     public int currentWave = 1;
     private float timeSinceLastSpawn = 0f;
     public int enemiesAlive;
@@ -32,12 +27,9 @@ public class EnemySpawner : MonoBehaviour
     private bool isWaveInProgress = false;
 
     public int enemiesReachedPathPoint;
-    public int enemiesReachedEndpoint; // Track enemies that reached the endpoint
-    public int enemiesReachedThirdPoint; // Track enemies that reached the third path point
+    public int enemiesReachedEndpoint;
 
-    private Transform target;
-    private int pathIndex = 0;
-
+    private int nextWaveEnemyCount = 0;
 
     private void Awake()
     {
@@ -45,24 +37,11 @@ public class EnemySpawner : MonoBehaviour
         enemyKilled.AddListener(OnEnemyKilled);
         AIWaveHandler.Main = FindFirstObjectByType<AIWaveHandler>();
         if (currentWave < 1)
-        {
-            currentWave = 1; // Ensure currentWave starts at 1
-        }
-        //Debug.Log($"Total Path Points: {totalPathPoints}");
+            currentWave = 1;
     }
-
 
     private void Start()
     {
-        if (LevelManager.Main.path.Length > 0)
-        {
-            target = LevelManager.Main.path[pathIndex];
-        }
-        else
-        {
-            Debug.LogError("LevelManager.Main.path is empty! Ensure waypoints are assigned.");
-        }
-        
         StartCoroutine(StartWave());
     }
 
@@ -70,22 +49,17 @@ public class EnemySpawner : MonoBehaviour
     {
         if (!isSpawning) return;
 
+        // Stop spawning if player is dead or LevelManager is missing
         if (LevelManager.Main == null || LevelManager.Main.health <= 0)
         {
-            Debug.LogError("LevelManager.Main is null or health is zero!");
             isSpawning = false;
             GameOver.Main.ShowGameOver();
             return;
         }
 
-        if (target == null)
-        {
-            Debug.LogError("Target is null! Ensure waypoints are assigned.");
-            return;
-        }
-
         timeSinceLastSpawn += Time.deltaTime;
 
+        // Spawn enemies at the set rate
         if (timeSinceLastSpawn >= (1f / enemiesPerSecond) && enemiesLeftToSpawn > 0)
         {
             SpawnEnemy();
@@ -95,28 +69,11 @@ public class EnemySpawner : MonoBehaviour
             timeSinceLastSpawn = 0f;
         }
 
-        if (Vector2.Distance(target.position, transform.position) <= 0.1f)
-        {
-            pathIndex++;
-
-            if (pathIndex == LevelManager.Main.path.Length)
-            {
-                EnemySpawner.enemyKilled.Invoke();
-                LevelManager.Main.DecreaseHealth(1);
-                Destroy(gameObject);
-                return;
-            }
-            else
-            {
-                target = LevelManager.Main.path[pathIndex];
-            }
-        }
-
+        // End wave when all enemies are spawned and defeated
         if (enemiesLeftToSpawn <= 0 && enemiesAlive <= 0)
         {
             EndWave();
         }
-
     }
 
     private void OnEnemyKilled()
@@ -124,124 +81,84 @@ public class EnemySpawner : MonoBehaviour
         enemiesAlive--;
     }
 
+    // Starts a new wave after a delay
     private IEnumerator StartWave()
     {
+        InGameBuyMenu.Main.OnGUI();
         if (isWaveInProgress)
-        {
-            Debug.LogWarning("StartWave called while a wave is already in progress!");
             yield break;
-        }
 
         isWaveInProgress = true;
 
+        // Use the stored value for this wave
         if (currentWave == 1)
-        {
-            enemiesLeftToSpawn = baseEnemies; // Use base enemies for the first wave
-        }
+            enemiesLeftToSpawn = baseEnemies;
         else
-        {
-            enemiesLeftToSpawn = upcomingWave = EnemiesPerWave(); // Get the number of enemies for the upcoming wave
-        }
+            enemiesLeftToSpawn = nextWaveEnemyCount;
 
-        enemiesReachedPathPoint = 0; // Reset the halfway counter for the new wave
-        enemiesReachedEndpoint = 0;  // Reset the endpoint counter for the new wave
-        enemiesReachedThirdPoint = 0; // Reset the third path point counter for the new wave
+        enemiesReachedPathPoint = 0;
+        enemiesReachedEndpoint = 0;
         yield return new WaitForSeconds(timeBetweenWaves);
 
         isSpawning = true;
         Debug.Log($"Starting Wave {currentWave}: Enemies to Spawn = {enemiesLeftToSpawn}");
     }
 
+    // Handles end-of-wave logic and checks for victory
     private void EndWave()
     {
         isSpawning = false;
         timeSinceLastSpawn = 0f;
+        currentWave++;
+        isWaveInProgress = false;
+        
 
-        currentWave++; // Increment the wave counter
-
-        isWaveInProgress = false; // Reset the flag
-
-        // Check if the last wave is completed
+        // If all waves are complete, player wins
         if (currentWave > 10)
         {
-            // Game won!
             GameOver.Main.WinGame();
             return;
         }
 
-
-        upcomingWave = EnemiesPerWave();
-        Debug.Log($"Adjusting Difficulty: Upcoming Wave = {upcomingWave}, Enemies Reached Halfway = {AIWaveHandler.Main.enemiesThatReachedPoint}, Enemies Reached Endpoint = {AIWaveHandler.Main.enemiesThatReachedEndpoint}, Enemies Failed = {AIWaveHandler.Main.enemiesThatFailed}");
+        // Only call AdjustWaveDifficulty here!
+        int baseWaveEnemies = Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
+        nextWaveEnemyCount = AIWaveHandler.Main.AdjustWaveDifficulty(baseWaveEnemies);
 
         StartCoroutine(StartWave());
     }
 
+    // Spawns an enemy based on the current scene and wave
     private void SpawnEnemy()
     {
         string sceneName = SceneManager.GetActiveScene().name;
-        GameObject prefabToSpawn = enemyPrefabs[0]; // Default to the first enemy type
+        GameObject prefabToSpawn = enemyPrefabs[0];
 
         if (sceneName == "Level 1" || sceneName == "Level 2" || sceneName == "Level 3")
         {
             if (currentWave >= 7)
-            {
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(4, enemyPrefabs.Length))];
-            }
             else if (currentWave >= 5)
-            {
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(3, enemyPrefabs.Length))];
-            }
             else if (currentWave >= 3)
-            {
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(2, enemyPrefabs.Length))];
-            }
         }
         else if (sceneName == "Level 4" || sceneName == "Level 5" || sceneName == "Level 6")
         {
             if (currentWave >= 6)
-            {
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(7, enemyPrefabs.Length))];
-            }
             else if (currentWave >= 5)
-            {
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(4, enemyPrefabs.Length))];
-            }
             else
-            {
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(2, enemyPrefabs.Length))];
-            }
         }
 
         Instantiate(prefabToSpawn, LevelManager.Main.startPoint.position, Quaternion.identity);
     }
 
+    // Calculates the number of enemies for the next wave using AIWaveHandler
     private int EnemiesPerWave()
     {
-        // Calculate the base number of enemies for the wave
         int baseWaveEnemies = Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
-
-        // Adjust the wave difficulty based on enemy progress
-        upcomingWave = AIWaveHandler.Main.AdjustWaveDifficulty(baseWaveEnemies);
-
-        //Debug.Log($"Wave {currentWave}: Base Enemies = {baseWaveEnemies}, Adjusted Enemies = {upcomingWave}");
-        return upcomingWave;
+        return AIWaveHandler.Main.AdjustWaveDifficulty(baseWaveEnemies);
     }
-    
-    void UpdateEnemyProgress(EnemyMovement enemy)
-    {
-        if (enemy.pathIndex == 3) // Check if the enemy reached the third path point
-        {
-            enemiesReachedThirdPoint++;
-        }
-        else if (enemy.pathIndex == totalPathPoints)
-        {
-            enemiesReachedEndpoint++;
-        }
-        else if (enemy.pathIndex == halfwayPointIndex)
-        {
-            enemiesReachedPathPoint++;
-        }
-    }
-
-    private int halfwayPointIndex => Mathf.FloorToInt(totalPathPoints / 2); // Calculate halfway point index
 }

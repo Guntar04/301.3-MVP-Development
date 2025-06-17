@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
@@ -11,6 +12,7 @@ public class EnemyMovement : MonoBehaviour
 
     private Transform target;
     public int pathIndex = 0;
+    private int furthestPathIndex = 0;
 
     private void Start()
     {
@@ -29,17 +31,16 @@ public class EnemyMovement : MonoBehaviour
         if (Vector2.Distance(target.position, transform.position) <= 0.1f)
         {
             pathIndex++;
+            if (pathIndex > furthestPathIndex)
+                furthestPathIndex = pathIndex;
 
             if (pathIndex == LevelManager.Main.path.Length)
             {
-                //Debug.Log("Enemy reached the endpoint, dealing damage.");
                 EnemySpawner.enemyKilled.Invoke();
-
-                // Increment the counter for enemies that reached the endpoint
                 EnemySpawner.Main.enemiesReachedEndpoint++;
-
                 LevelManager.Main.DecreaseHealth(1);
-                Destroy(gameObject);
+
+                Die();
                 return;
             }
             else
@@ -75,5 +76,13 @@ public class EnemyMovement : MonoBehaviour
         float distanceBetweenWaypoints = Vector2.Distance(LevelManager.Main.path[pathIndex - 1].position, LevelManager.Main.path[pathIndex].position);
         
         return pathIndex + (1f - (distanceToNextWaypoint / distanceBetweenWaypoints));
+    }
+
+    public void Die()
+    {
+        if (AIWaveHandler.Main != null)
+            AIWaveHandler.Main.ReportEnemyProgress(furthestPathIndex);
+
+        Destroy(gameObject);
     }
 }
