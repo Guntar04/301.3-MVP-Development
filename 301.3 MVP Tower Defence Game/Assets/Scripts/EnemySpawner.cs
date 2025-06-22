@@ -5,14 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
-    
     [Header("References")]
     [SerializeField] private GameObject[] enemyPrefabs;
 
-
     [Header("Attributes")]
     [SerializeField] private int baseEnemies = 20;
-    [SerializeField] private float enemiesPerSecond = 0.3f;
+    [SerializeField] public float enemiesPerSecond = 0.3f;
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.7f;
 
@@ -24,16 +22,26 @@ public class EnemySpawner : MonoBehaviour
     private float timeSinceLastSpawn = 0f;
     public int enemiesAlive;
     public int enemiesLeftToSpawn;
+    public int upcomingWave;
     private bool isSpawning = false;
-    
+    private bool isWaveInProgress = false;
+
+    public int enemiesReachedPathPoint;
+    public int enemiesReachedEndpoint;
+
+    private int nextWaveEnemyCount = 0;
+
     private void Awake()
     {
         Main = this;
         enemyKilled.AddListener(OnEnemyKilled);
+        AIWaveHandler.Main = FindFirstObjectByType<AIWaveHandler>();
+        if (currentWave < 1)
+            currentWave = 1;
     }
 
-
-    private void Start() {
+    private void Start()
+    {
         StartCoroutine(StartWave());
     }
 
@@ -41,8 +49,17 @@ public class EnemySpawner : MonoBehaviour
     {
         if (!isSpawning) return;
 
+        // Stop spawning if player is dead or LevelManager is missing
+        if (LevelManager.Main == null || LevelManager.Main.health <= 0)
+        {
+            isSpawning = false;
+            GameOver.Main.ShowGameOver();
+            return;
+        }
+
         timeSinceLastSpawn += Time.deltaTime;
 
+        // Spawn enemies at the set rate
         if (timeSinceLastSpawn >= (1f / enemiesPerSecond) && enemiesLeftToSpawn > 0)
         {
             SpawnEnemy();
@@ -52,91 +69,96 @@ public class EnemySpawner : MonoBehaviour
             timeSinceLastSpawn = 0f;
         }
 
-        if (enemiesAlive == 0 && enemiesLeftToSpawn == 0)
+        // End wave when all enemies are spawned and defeated
+        if (enemiesLeftToSpawn <= 0 && enemiesAlive <= 0)
         {
-            if (currentWave >= 10)
-            {
-                isSpawning = false;
-                GameOver.Main.WinGame(); // Show the victory screen
-            }
-            else
-            {
-                EndWave();
-            }
-        }
-
-        if (LevelManager.Main.health <= 0)
-        {
-            isSpawning = false;
-            GameOver.Main.ShowGameOver(); // Show the game over screen
+            EndWave();
         }
     }
 
-    private void OnEnemyKilled() {
+    private void OnEnemyKilled()
+    {
         enemiesAlive--;
     }
 
-    private IEnumerator StartWave() {
+    // Starts a new wave after a delay
+    private IEnumerator StartWave()
+    {
+        InGameBuyMenu.Main.OnGUI();
+        if (isWaveInProgress)
+            yield break;
+
+        isWaveInProgress = true;
+
+        // Use the stored value for this wave
+        if (currentWave == 1)
+            enemiesLeftToSpawn = baseEnemies;
+        else
+            enemiesLeftToSpawn = nextWaveEnemyCount;
+
+        enemiesReachedPathPoint = 0;
+        enemiesReachedEndpoint = 0;
         yield return new WaitForSeconds(timeBetweenWaves);
+
         isSpawning = true;
-        enemiesLeftToSpawn = EnemiesPerWave();
+        Debug.Log($"Starting Wave {currentWave}: Enemies to Spawn = {enemiesLeftToSpawn}");
     }
 
-    private void EndWave() {
+    // Handles end-of-wave logic and checks for victory
+    private void EndWave()
+    {
         isSpawning = false;
         timeSinceLastSpawn = 0f;
         currentWave++;
+        isWaveInProgress = false;
+        
+
+        // If all waves are complete, player wins
+        if (currentWave > 10)
+        {
+            GameOver.Main.WinGame();
+            return;
+        }
+
+        // Only call AdjustWaveDifficulty here!
+        int baseWaveEnemies = Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
+        nextWaveEnemyCount = AIWaveHandler.Main.AdjustWaveDifficulty(baseWaveEnemies);
+
         StartCoroutine(StartWave());
     }
 
-    private void SpawnEnemy() {
+    // Spawns an enemy based on the current scene and wave
+    private void SpawnEnemy()
+    {
         string sceneName = SceneManager.GetActiveScene().name;
-        GameObject prefabToSpawn = enemyPrefabs[0]; // Default to the first enemy type
+        GameObject prefabToSpawn = enemyPrefabs[0];
 
         if (sceneName == "Level 1" || sceneName == "Level 2" || sceneName == "Level 3")
         {
-            if (currentWave >= 7 && currentWave <= 10)
-            {
-                // Waves 7-10: Spawn any of the first four enemy types
+            if (currentWave >= 7)
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(4, enemyPrefabs.Length))];
-            }
-            else if (currentWave >= 5 && currentWave <= 6)
-            {
-                // Waves 5-6: Spawn any of the first three enemy types
+            else if (currentWave >= 5)
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(3, enemyPrefabs.Length))];
-            }
-            else if (currentWave >= 3 && currentWave <= 4)
-            {
-                // Waves 3-4: Spawn any of the first two enemy types
+            else if (currentWave >= 3)
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(2, enemyPrefabs.Length))];
-            }
-            // Waves 1-2: Only spawn the first enemy type (default behavior)
         }
-
         else if (sceneName == "Level 4" || sceneName == "Level 5" || sceneName == "Level 6")
         {
-            if (currentWave >= 6 && currentWave <= 10)
-            {
-                // Waves 6-10: Spawn any of the first four enemy types
+            if (currentWave >= 6)
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(7, enemyPrefabs.Length))];
-            }
-            else if (currentWave >= 5 && currentWave <= 6)
-            {
-                // Waves 5-6: Spawn any of the first three enemy types
+            else if (currentWave >= 5)
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(4, enemyPrefabs.Length))];
-            }
-            else if (currentWave >= 1 && currentWave <= 4)
-            {
-                // Waves 1-4: Spawn the first enemy type
+            else
                 prefabToSpawn = enemyPrefabs[Random.Range(0, Mathf.Min(2, enemyPrefabs.Length))];
-            }
         }
-        
 
         Instantiate(prefabToSpawn, LevelManager.Main.startPoint.position, Quaternion.identity);
     }
 
-    private int EnemiesPerWave(){
-        return Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
+    // Calculates the number of enemies for the next wave using AIWaveHandler
+    private int EnemiesPerWave()
+    {
+        int baseWaveEnemies = Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
+        return AIWaveHandler.Main.AdjustWaveDifficulty(baseWaveEnemies);
     }
 }

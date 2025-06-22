@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
@@ -10,31 +11,56 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f;
 
     private Transform target;
-    private int pathIndex = 0;
+    public int pathIndex = 0;
+    private int furthestPathIndex = 0;
 
-    private void Start() {
-        target = LevelManager.Main.path[pathIndex];
+    private void Start()
+    {
+        if (LevelManager.Main.path.Length > 0)
+        {
+            target = LevelManager.Main.path[pathIndex];
+        }
+        else
+        {
+            Debug.LogError("LevelManager.Main.path is empty");
+        }
     }
 
-    private void Update() {
-        if (Vector2.Distance(target.position, transform.position) <= 0.1f) {
+    public void Update()
+    {
+        if (Vector2.Distance(target.position, transform.position) <= 0.1f)
+        {
             pathIndex++;
+            if (pathIndex > furthestPathIndex)
+                furthestPathIndex = pathIndex;
 
-            if (pathIndex == LevelManager.Main.path.Length) {
+            if (pathIndex == LevelManager.Main.path.Length)
+            {
                 EnemySpawner.enemyKilled.Invoke();
+                EnemySpawner.Main.enemiesReachedEndpoint++;
                 LevelManager.Main.DecreaseHealth(1);
-                Destroy(gameObject);
+
+                Die();
                 return;
             }
-            else {
+            else
+            {
                 target = LevelManager.Main.path[pathIndex];
+            }
+
+            // // Notify EnemySpawner when the enemy reaches the halfway point
+            if (pathIndex == LevelManager.Main.path.Length / 2) // Halfway through the path
+            {
+                EnemySpawner.Main.enemiesReachedPathPoint++;
+                //Debug.Log($"Enemy reached halfway point. Total halfway count: {EnemySpawner.Main.enemiesReachedPathPoint}");
             }
         }
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         Vector2 direction = (target.position - transform.position).normalized;
-        
+
         rb.linearVelocity = direction * moveSpeed;
     }
 
@@ -48,7 +74,15 @@ public class EnemyMovement : MonoBehaviour
 
         float distanceToNextWaypoint = Vector2.Distance(transform.position, LevelManager.Main.path[pathIndex].position);
         float distanceBetweenWaypoints = Vector2.Distance(LevelManager.Main.path[pathIndex - 1].position, LevelManager.Main.path[pathIndex].position);
-
+        
         return pathIndex + (1f - (distanceToNextWaypoint / distanceBetweenWaypoints));
+    }
+
+    public void Die()
+    {
+        if (AIWaveHandler.Main != null)
+            AIWaveHandler.Main.ReportEnemyProgress(furthestPathIndex);
+
+        Destroy(gameObject);
     }
 }

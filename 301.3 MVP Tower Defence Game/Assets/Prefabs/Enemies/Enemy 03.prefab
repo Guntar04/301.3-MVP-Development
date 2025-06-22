@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7133724437193488545}
   moveSpeed: 3.2
+  pathIndex: 0
 --- !u!114 &-5919277069094123777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,6 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 16
-  currencyWorth: 9
-  physicalArmor: 10
-  magicArmor: 10
+  currencyWorth: 8
+  physicalArmor: 15
+  magicArmor: 15

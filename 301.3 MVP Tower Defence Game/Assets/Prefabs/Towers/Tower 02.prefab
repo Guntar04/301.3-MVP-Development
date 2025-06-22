@@ -215,10 +215,16 @@ MonoBehaviour:
   - {fileID: 149164983, guid: 7336b87a3be40bc4890f295a47f36994, type: 3}
   - {fileID: 1495758234, guid: 7336b87a3be40bc4890f295a47f36994, type: 3}
   - {fileID: -858007716, guid: 7336b87a3be40bc4890f295a47f36994, type: 3}
-  targetingRange: 8
+  targetingRange: 5
   rotationSpeed: 170
-  bps: 0.6
-  baseUpgradeCost: 100
+  bps: 0.5
+  baseUpgradeCost: 140
+  basePhysicalDamage: 14
+  baseMagicDamage: 14
+  physicalDamageUpgrade: 6
+  magicDamageUpgrade: 4
+  rangeUpgrade: 0.5
+  bpsUpgrade: 0.1
 --- !u!1 &6629836823207535150
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +324,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Upgrade UI
       objectReference: {fileID: 0}
+    - target: {fileID: 572239341737243604, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
+      propertyPath: m_fontSize
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 572239341737243604, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 3654587527550855661, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -397,6 +411,14 @@ PrefabInstance:
     - target: {fileID: 3654587527550855661, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824329062615595293, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
+      propertyPath: m_fontSize
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824329062615595293, guid: 2f57f5f3f2f52b3419e8ee893ab7cd16, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

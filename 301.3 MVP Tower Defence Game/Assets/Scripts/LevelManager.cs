@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         Main = this;
+        Time.timeScale = 1f; // Ensure time scale is set to normal
     }
 
     private void Start()
@@ -44,7 +45,7 @@ public class LevelManager : MonoBehaviour
     public void DecreaseHealth(int amount)
     {
         health -= amount;
-        Debug.Log("Player health decreased. Current health: " + health);
+        //Debug.Log("Player health decreased. Current health: " + health);
         if (health <= 0)
         {
             Debug.Log("Game Over!");
