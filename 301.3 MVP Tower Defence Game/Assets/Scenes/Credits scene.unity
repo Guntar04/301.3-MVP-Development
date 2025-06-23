@@ -292,15 +292,15 @@ RectTransform:
   m_GameObject: {fileID: 218770886}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.16612534, y: 0.31771544, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1600193547}
+  m_Father: {fileID: 1185552964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 181.43767, y: -0.7544594}
-  m_SizeDelta: {x: 211.676, y: 126.728}
+  m_AnchoredPosition: {x: 0.00000095367, y: 35.764}
+  m_SizeDelta: {x: 265.227, y: 126.728}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &218770888
 MonoBehaviour:
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A Game by Wooden Dragon game studio
+  m_text: Developed by Ironveil Games
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -356,7 +356,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -773,6 +773,7 @@ RectTransform:
   m_LocalScale: {x: 6.019552, y: 3.1474707, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 218770887}
   - {fileID: 1600193547}
   - {fileID: 1630958077}
   - {fileID: 1055783568}
@@ -780,8 +781,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: 1.9000244}
-  m_SizeDelta: {x: 117.0152, y: 117.7499}
+  m_AnchoredPosition: {x: -0.0000038147, y: 0.000005722}
+  m_SizeDelta: {x: 157.1057, y: 158.0927}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1185552965
 MonoBehaviour:
@@ -803,7 +804,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2227294742669426013, guid: e136009d793872c45864ede86fa61c78, type: 3}
+  m_Sprite: {fileID: 897710771807637462, guid: 46c199011508d624b945bd63736bbdba, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1063,7 +1064,7 @@ GameObject:
   - component: {fileID: 1600193549}
   - component: {fileID: 1600193548}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Stuido Logo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1080,14 +1081,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.16612533, y: 0.31771544, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 218770887}
+  m_Children: []
   m_Father: {fileID: 1185552964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -28.907888, y: 30.067694}
-  m_SizeDelta: {x: 133.09729, y: 127.2078}
+  m_AnchoredPosition: {x: -36.8, y: 35.764}
+  m_SizeDelta: {x: 193.72641, y: 185.1541}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1600193548
 MonoBehaviour:
@@ -1109,7 +1109,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2812234471466905642, guid: 8e2e16ad55082b54db0956b11028ad6b, type: 3}
+  m_Sprite: {fileID: 3618592806908353621, guid: f5f9bf83ca91ccd4a9f2725bd9c2b58e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1299,8 +1299,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000036716, y: 0}
-  m_SizeDelta: {x: 930.8, y: 444.2}
+  m_AnchoredPosition: {x: 0.000038146973, y: 0}
+  m_SizeDelta: {x: 1224, y: 571}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1767813871
 MonoBehaviour:
