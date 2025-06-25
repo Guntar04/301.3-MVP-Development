@@ -5,11 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
-    void start()
-    {
-
-
-    }
     public void Openscene()
     {
 

@@ -850,7 +850,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 940, y: 423}
+  m_AnchoredPosition: {x: 860, y: 437}
   m_SizeDelta: {x: 110.003, y: 121.244}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8362829091868205643
@@ -1119,7 +1119,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -861, y: 322.25018}
+  m_AnchoredPosition: {x: -846.51965, y: 353.16022}
   m_SizeDelta: {x: 4.3486, y: 75.4474}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2718197764786437101
@@ -1899,6 +1899,7 @@ GameObject:
   - component: {fileID: 484779427475819779}
   - component: {fileID: 2545882836410209688}
   - component: {fileID: 2581332164804005761}
+  - component: {fileID: 176119033524770284}
   m_Layer: 5
   m_Name: Exit Button
   m_TagString: Untagged
@@ -2007,7 +2008,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2545882836410209688}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 176119033524770284}
+        m_TargetAssemblyTypeName: BacktoMissionSelect, Assembly-CSharp
+        m_MethodName: LoadLevelSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &176119033524770284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972202456845311299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c93dc1e76fbcd47986dc0c55e5271f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2528932240193033210
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,7 +2072,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -711, y: 418}
+  m_AnchoredPosition: {x: -696.51965, y: 448.91003}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &365253939436078366
@@ -2576,6 +2601,7 @@ GameObject:
   - component: {fileID: 838324081486165961}
   - component: {fileID: 2632180000526387182}
   - component: {fileID: 2693789206297146712}
+  - component: {fileID: 14015637569709166}
   m_Layer: 5
   m_Name: Exit Button
   m_TagString: Untagged
@@ -2683,7 +2709,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2632180000526387182}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 14015637569709166}
+        m_TargetAssemblyTypeName: BacktoMissionSelect, Assembly-CSharp
+        m_MethodName: LoadLevelSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &14015637569709166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3489740805052327078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c93dc1e76fbcd47986dc0c55e5271f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3585543552026127288
 GameObject:
   m_ObjectHideFlags: 0
@@ -2943,7 +2993,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -560, y: 322.25018}
+  m_AnchoredPosition: {x: -545.51965, y: 353.16022}
   m_SizeDelta: {x: 4.3486, y: 75.4474}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6908534257168042749
@@ -3614,7 +3664,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1002.29376, y: 472.41882}
+  m_AnchoredPosition: {x: -987.8134, y: 503.32886}
   m_SizeDelta: {x: 87.9122, y: 26.3624}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1723265946153035429
@@ -4049,7 +4099,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -674, y: 264.28}
+  m_AnchoredPosition: {x: -659.51965, y: 295.19003}
   m_SizeDelta: {x: 200, y: 45.246}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3981118728919365639
@@ -4185,7 +4235,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -711, y: 264.28198}
+  m_AnchoredPosition: {x: -696.51965, y: 295.19202}
   m_SizeDelta: {x: 75.7585, y: 75.7585}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1780154107526479797
@@ -4260,7 +4310,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -823, y: 264.28}
+  m_AnchoredPosition: {x: -808.51965, y: 295.19003}
   m_SizeDelta: {x: 55.6536, y: 55.6536}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &512461029906435806
@@ -4621,7 +4671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -607.48035, y: 263.09}
+  m_AnchoredPosition: {x: -593, y: 294}
   m_SizeDelta: {x: 66.9607, y: 42.87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8005080915737159369
@@ -4762,7 +4812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 767, y: 423}
+  m_AnchoredPosition: {x: 687, y: 437}
   m_SizeDelta: {x: 110.003, y: 121.244}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7196781867750633162
@@ -5247,6 +5297,7 @@ GameObject:
   - component: {fileID: 2706867691215871657}
   - component: {fileID: 8589023639837366214}
   - component: {fileID: 5408309968941232285}
+  - component: {fileID: 6576481442377621062}
   m_Layer: 5
   m_Name: Exit Button
   m_TagString: Untagged
@@ -5355,7 +5406,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8589023639837366214}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6576481442377621062}
+        m_TargetAssemblyTypeName: BacktoMissionSelect, Assembly-CSharp
+        m_MethodName: LoadLevelSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6576481442377621062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7624786315936728492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c93dc1e76fbcd47986dc0c55e5271f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7637638552788985695
 GameObject:
   m_ObjectHideFlags: 0
